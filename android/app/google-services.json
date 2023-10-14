@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1062770465478",
+    "project_id": "compass-media",
+    "storage_bucket": "compass-media.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062770465478:android:8b2b6c3165b837c38615c7",
+        "android_client_info": {
+          "package_name": "com.example.compass_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNyYTeOoqNcrVf6Lb9dfiMh8tUDgNNE5s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
