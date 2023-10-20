@@ -73,6 +73,7 @@ flutter:
     - assets/images/economy.png
     - assets/images/CTA_Button.png
     - assets/images/profile.png
+    - assets/images/vignette.png
     # Source Images
     - assets/sources/BBC.png
     - assets/sources/CNN.png

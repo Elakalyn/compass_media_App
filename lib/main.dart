@@ -1,12 +1,10 @@
+import 'package:compass_app/Modules/Home/home.dart';
 import 'package:compass_app/firebase_options.dart';
-import 'package:compass_app/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-
+import 'Modules/Bookmarks/bookmarks.dart';
 import 'Modules/Profile/profile.dart';
-import 'Modules/User Setup/user_setup.dart';
-import 'Modules/Splash Screen/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,20 +29,21 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: HexColor('#0F1D37'),
         textTheme: Theme.of(context).textTheme.apply(
+              fontFamily: 'Inter',
+
               //  Set default Text() color;  Use:  apply()
               bodyColor: Colors.white,
               displayColor: Colors.white,
             ),
         appBarTheme: AppBarTheme(
-          elevation: 0,
-          backgroundColor: HexColor('#0F1D37'),
-          iconTheme: IconThemeData(
-            color: Colors.black,
-          ),
-          toolbarHeight: 88
-        ),
+            elevation: 0,
+            backgroundColor: HexColor('#0F1D37'),
+            iconTheme: const IconThemeData(
+              color: Colors.black,
+            ),
+            toolbarHeight: 88),
       ),
-      home: ProfileScreen(),
+      home: const BookmarksScreen(),
     );
   }
 }

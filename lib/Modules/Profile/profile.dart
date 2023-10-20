@@ -49,8 +49,8 @@ class ProfileScreen extends StatelessWidget {
                 child: Row(
                   children: [
                     ClipRRect(
-                        child: Image.asset('assets/images/profile.png'),
-                        borderRadius: BorderRadius.circular(25)),
+                        borderRadius: BorderRadius.circular(25),
+                        child: Image.asset('assets/images/profile.png')),
                     20.w,
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 20.0),
