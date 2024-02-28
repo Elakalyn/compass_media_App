@@ -1,22 +1,21 @@
-import 'package:compass_app/Modules/Authentication/login.dart';
-import 'package:compass_app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'Modules/Authentication/login.dart';
 import 'Modules/Host/host.dart';
 import 'Network/Local/cacheHelper.dart';
 import 'Shared/Constants/constants.dart';
 import 'cubit/app_cubit.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
+  runApp(const MyApp());
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -42,6 +41,13 @@ class MyApp extends StatelessWidget {
             title: 'Compass Media',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
+              navigationBarTheme: NavigationBarThemeData(
+                labelTextStyle: MaterialStatePropertyAll(
+                  TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
               fontFamily: 'Inter',
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
@@ -59,7 +65,7 @@ class MyApp extends StatelessWidget {
                   ),
                   toolbarHeight: 88),
             ),
-            home: LoginScreen(),
+            home: home,
           );
         },
       ),

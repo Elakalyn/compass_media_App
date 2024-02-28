@@ -84,8 +84,8 @@ class subTopicCard extends StatelessWidget {
   }
 }
 
-class NewsCard extends StatelessWidget {
-  const NewsCard({
+class NewsCard2 extends StatelessWidget {
+  const NewsCard2({
     super.key,
   });
 
@@ -171,6 +171,84 @@ class NewsCard extends StatelessWidget {
   }
 }
 
+Widget NewsCard(context) => GestureDetector(
+      onTap: () {
+        navigateTo(context, ArticleViewScreen());
+      },
+      child: Container(
+        width: 320.0,
+        height: 322.0,
+        decoration: BoxDecoration(
+          color: HexColor('0F1D37'),
+          borderRadius: BorderRadius.circular(25),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 50,
+              offset: Offset(10, 10),
+              color: HexColor('06142E'),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 171,
+                width: 300,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(25),
+                  child: Image.network(
+                      'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1hUBhf.img?w=549&h=309&m=6'),
+                ),
+              ),
+              12.h,
+              Container(
+                width: 110,
+                decoration: BoxDecoration(
+                  color: HexColor('0040B8'),
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 25,
+                        height: 25,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(25),
+                            child:
+                                Image.asset('assets/images/politicsIcon.png')),
+                      ),
+                      8.w,
+                      Text(
+                        'POLITICS',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              8.h,
+              Text(
+                'Israeli army on southern territory near Gaza',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
 Future<void> navigateToAndFinish(context, widget) async =>
     Navigator.pushAndRemoveUntil(
       context,
@@ -211,6 +289,10 @@ class Logo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset('assets/images/app_Icon.png',width: size,height: size,);
+    return Image.asset(
+      'assets/images/app_Icon.png',
+      width: size,
+      height: size,
+    );
   }
 }

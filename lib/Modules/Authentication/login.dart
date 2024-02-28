@@ -7,6 +7,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 import '../../Shared/Components/components.dart';
 import '../Host/host.dart';
+import 'register.dart';
 
 class LoginScreen extends StatelessWidget {
   var emailController = TextEditingController();
@@ -81,51 +82,55 @@ class LoginScreen extends StatelessWidget {
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(
-                          errorStyle: TextStyle(
-                            color: Color.fromARGB(255, 255, 100, 89),
+                        decoration: InputDecoration(
+                          hintText: 'Email',
+                          prefixIcon: const Icon(
+                            Icons.email,
+                            color: Colors.white,
                           ),
-                          labelText: 'Email',
-                          labelStyle: TextStyle(color: Colors.white),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
+                          
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.3),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
                           ),
                         ),
                         style: const TextStyle(color: Colors.white),
                       ),
                       const SizedBox(height: 20.0),
                       TextFormField(
-                        controller: passwordController,
+                        controller: confirmPasswordController,
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Password cannot be left empty.';
+                            return 'Field cannnot be left empty.';
                           }
+
                           return null;
                         },
+                        obscureText: AppCubit.get(context).isViewable,
                         decoration: InputDecoration(
-                          errorStyle: const TextStyle(
-                            color: Color.fromARGB(255, 255, 100, 89),
+                          hintText: 'Password',
+                          prefixIcon: const Icon(
+                            Icons.lock,
+                            color: Colors.white,
                           ),
                           suffixIcon: InkWell(
                             onTap: () {
                               AppCubit.get(context).changeViewable();
                             },
-                            child: suffixWidgetPassword,
+                            child: const Icon(
+                              Icons.visibility,
+                              color: Colors.white,
+                            ),
                           ),
-                          labelText: 'Password',
-                          labelStyle: const TextStyle(color: Colors.white),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                          ),
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
+                          filled: true,
+                          fillColor: Colors.white.withOpacity(0.3),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
                           ),
                         ),
-                        obscureText: AppCubit.get(context).isViewable,
-                        style: const TextStyle(color: Colors.white),
                       ),
                       const SizedBox(height: 20.0),
                       ElevatedButton(
@@ -136,7 +141,9 @@ class LoginScreen extends StatelessWidget {
                                     passwordController.text, context)
                                 .then((value) {});
                           }
-                        },
+                        },onLongPress: () {
+                        navigateToAndFinish(context, Host());
+                      },
                         style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all(Colors.white),
@@ -158,7 +165,9 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 10.0),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          navigateTo(context, RegisterScreen());
+                        },
                         child: const Text(
                           'Sign Up',
                           style: TextStyle(color: Colors.white),

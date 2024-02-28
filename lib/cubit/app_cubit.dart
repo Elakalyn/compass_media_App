@@ -43,7 +43,6 @@ class AppCubit extends Cubit<AppState> {
       {required String email,
       required String password,
       required context,
-      required String phone,
       required String name}) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     try {
@@ -66,7 +65,6 @@ class AppCubit extends Cubit<AppState> {
           'profile_image':
               'https://firebasestorage.googleapis.com/v0/b/car-app-410f4.appspot.com/o/vehicles_Icon.png?alt=media&token=0994d376-c08d-477d-aa48-f3290b0dc85d',
           'uid': value.user?.uid,
-          'phone': phone,
         });
         await CacheHelper.saveData(key: 'uid', value: value.user?.uid);
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

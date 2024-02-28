@@ -22,7 +22,7 @@ class GlobalScreen extends StatelessWidget {
               ),
               Spacer(),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   navigateTo(context, SearchScreen());
                 },
                 child: Container(
@@ -95,11 +95,11 @@ class GlobalScreen extends StatelessWidget {
               ),
             ),
             40.h,
-            const NewsCard(),
+            NewsCard(context),
             20.h,
-            const NewsCard(),
+            NewsCard(context),
             20.h,
-            const NewsCard(),
+            NewsCard(context),
           ]),
         ),
       ),
