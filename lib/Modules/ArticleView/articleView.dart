@@ -7,12 +7,21 @@ import 'package:speed_up_flutter/speed_up_flutter.dart';
 import '../../Shared/Components/components.dart';
 
 class ArticleViewScreen extends StatelessWidget {
-  const ArticleViewScreen({super.key});
-
+  const ArticleViewScreen(
+      {super.key,
+      required this.name,
+      required this.image,
+      required this.content});
+  final name;
+  final image;
+  final content;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
         centerTitle: true,
         title: SafeArea(
           child: Image.asset(
@@ -31,10 +40,10 @@ class ArticleViewScreen extends StatelessWidget {
               child: Column(
                 children: [
                   20.h,
-                  const Align(
+                  Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Israeli Army on Southern Territory near Gaza',
+                      name,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white,
@@ -52,6 +61,9 @@ class ArticleViewScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(35.0),
                     ),
                     child: Stack(children: [
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(25),
+                          child: Image.network(image, fit: BoxFit.fill)),
                       Align(
                         alignment: Alignment.topRight,
                         child: Padding(
@@ -73,13 +85,6 @@ class ArticleViewScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: Image.asset('assets/images/vignette.png'),
-                        ),
-                      ),
                     ]),
                   ),
                   20.h,
@@ -92,14 +97,13 @@ class ArticleViewScreen extends StatelessWidget {
                     ),
                   ),
                   40.h,
-                  const Headline(),
+                  Headline(content: content),
                   40.h,
-                  const Headline(),
+                  Headline(content: content),
                   40.h,
-                  const Headline(),
+                  Headline(content: content),
                   40.h,
-                  const Headline(),
-                  40.h,
+                  Headline(content: content),
                 ],
               ),
             ),
@@ -261,25 +265,15 @@ class Comment extends StatelessWidget {
 class Headline extends StatelessWidget {
   const Headline({
     super.key,
+    required this.content,
   });
-
+  final content;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'Number killed in Gaza now 700',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-        20.h,
-        const Text(
-          'The Palestinian Health Ministry says 770 people have now been killed in the Gaza Strip since Israel launched its retaliatory air strikes on Saturday. Around 4,100 have been injured.',
+        Text(
+          content,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.normal,

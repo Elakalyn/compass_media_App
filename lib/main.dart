@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       home = LoginScreen();
     }
     return BlocProvider(
-      create: (context) => AppCubit(),
+      create: (context) => AppCubit()..getPopularSearchHeadlines(),
       child: BlocConsumer<AppCubit, AppState>(
         listener: (context, state) {
           // TODO: implement listener
@@ -49,7 +49,6 @@ class MyApp extends StatelessWidget {
                 ),
               ),
               fontFamily: 'Inter',
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
               scaffoldBackgroundColor: HexColor('#0F1D37'),
               textTheme: Theme.of(context).textTheme.apply(
@@ -60,8 +59,9 @@ class MyApp extends StatelessWidget {
               appBarTheme: AppBarTheme(
                   elevation: 0,
                   backgroundColor: HexColor('#0F1D37'),
+                  surfaceTintColor: Colors.transparent,
                   iconTheme: const IconThemeData(
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                   toolbarHeight: 88),
             ),

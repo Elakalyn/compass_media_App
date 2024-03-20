@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
+import '../../Network/Remote/apiService.dart';
 import '../../Shared/Components/components.dart';
+import '../../Shared/Models/ArticleModel/articleModel.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -41,7 +43,28 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               24.h,
-              NewsCard(context),
+              FutureBuilder(
+                future: ufclient.getArticle(context),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Articles>> snapshot) {
+                  if (snapshot.hasData) {
+                    List<Articles> articles = snapshot.data!;
+
+                    return ListView.separated(
+                      separatorBuilder: (context, index) => 20.h,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: articles.length,
+                      itemBuilder: (context, index) =>
+                          NewsCard(articles[index], context),
+                    );
+                  }
+                  ;
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
             ],
           ),
         ),

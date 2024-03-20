@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
+import '../../Network/Remote/apiService.dart';
 import '../../Shared/Components/components.dart';
+import '../../Shared/Models/ArticleModel/articleModel.dart';
 
 class GlobalScreen extends StatelessWidget {
   const GlobalScreen({super.key});
@@ -74,12 +76,10 @@ class GlobalScreen extends StatelessWidget {
                 profileWidget(),
               ],
             ),
-            40.h,
+            20.h,
             Row(
               children: [
-                const subTopicCard(),
-                20.w,
-                const subTopicCard(),
+                const GlobalCard(),
               ],
             ),
             40.h,
@@ -95,11 +95,30 @@ class GlobalScreen extends StatelessWidget {
               ),
             ),
             40.h,
-            NewsCard(context),
-            20.h,
-            NewsCard(context),
-            20.h,
-            NewsCard(context),
+            FutureBuilder(
+              future: categoryClient.getArticle(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<Articles>> snapshot) {
+                //let's check if we got a response or not
+                if (snapshot.hasData) {
+                  //Now let's make a list of articles
+                  List<Articles> articles = snapshot.data!;
+
+                  return ListView.separated(
+                    separatorBuilder: (context, index) => 20.h,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: articles.length,
+                    itemBuilder: (context, index) =>
+                        NewsCard(articles[index], context),
+                  );
+                }
+                ;
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
           ]),
         ),
       ),

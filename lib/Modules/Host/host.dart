@@ -28,9 +28,9 @@ class Host extends StatelessWidget {
                   selectedIcon: Icon(Icons.home_outlined, color: Colors.black),
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.circle, color: Colors.white),
+                  icon: Icon(Icons.public, color: Colors.white),
                   label: 'Global',
-                  selectedIcon: Icon(Icons.circle, color: Colors.black),
+                  selectedIcon: Icon(Icons.public, color: Colors.black),
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.settings, color: Colors.white),

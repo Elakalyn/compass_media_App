@@ -22,3 +22,14 @@ class LoadingRegisterState extends AppState {}
 class ErrorRegisterState extends AppState {}
 
 class SuccessRegisterState extends AppState {}
+
+// PROFILE STATES
+
+class SetCountryState extends AppState {}
+
+// SEARCH STATES
+class LoadingSearchState extends AppState {}
+
+class ErrorSearchState extends AppState {}
+
+class SuccessSearchState extends AppState {}

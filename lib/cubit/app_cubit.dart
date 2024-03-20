@@ -1,6 +1,7 @@
 import 'package:compass_app/Modules/Global/globalScreen.dart';
 import 'package:compass_app/Modules/Home/home.dart';
 import 'package:compass_app/Modules/Host/host.dart';
+import 'package:compass_app/Network/Remote/apiService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../Modules/Settings/settings.dart';
 import '../Network/Local/cacheHelper.dart';
 import '../Shared/Components/components.dart';
+import 'package:intl/intl.dart';
 
 part 'app_state.dart';
 
@@ -147,5 +149,196 @@ class AppCubit extends Cubit<AppState> {
       }
       return null;
     }
+  }
+
+  var country = 'United Kingdom';
+  List<String> countries = [
+    'Afghanistan',
+    'Albania',
+    'Algeria',
+    'Angola',
+    'Argentina',
+    'Armenia',
+    'Australia',
+    'Austria',
+    'Azerbaijan',
+    'Bahrain',
+    'Bangladesh',
+    'Belarus',
+    'Belgium',
+    'Benin',
+    'Bolivia',
+    'Bosnia and Herzegovina',
+    'Botswana',
+    'Brazil',
+    'Bulgaria',
+    'Burkina Faso',
+    'Burundi',
+    'Cambodia',
+    'Cameroon',
+    'Canada',
+    'Central African Republic',
+    'Chad',
+    'Chile',
+    'China',
+    'Colombia',
+    'Comoros',
+    'Congo',
+    'Costa Rica',
+    'Croatia',
+    'Cuba',
+    'Cyprus',
+    'Czech Republic',
+    'Denmark',
+    'Djibouti',
+    'Dominican Republic',
+    'Ecuador',
+    'Egypt',
+    'El Salvador',
+    'Equatorial Guinea',
+    'Eritrea',
+    'Estonia',
+    'Eswatini',
+    'Ethiopia',
+    'Finland',
+    'France',
+    'Gabon',
+    'Gambia',
+    'Georgia',
+    'Germany',
+    'Ghana',
+    'Greece',
+    'Guatemala',
+    'Guinea',
+    'Haiti',
+    'Honduras',
+    'Hungary',
+    'Iceland',
+    'India',
+    'Indonesia',
+    'Iran',
+    'Iraq',
+    'Ireland',
+    'Israel',
+    'Italy',
+    'Jamaica',
+    'Japan',
+    'Jordan',
+    'Kazakhstan',
+    'Kenya',
+    'Kuwait',
+    'Kyrgyzstan',
+    'Laos',
+    'Latvia',
+    'Lebanon',
+    'Lesotho',
+    'Liberia',
+    'Libya',
+    'Lithuania',
+    'Luxembourg',
+    'Madagascar',
+    'Malawi',
+    'Malaysia',
+    'Mali',
+    'Malta',
+    'Mauritania',
+    'Mauritius',
+    'Mexico',
+    'Moldova',
+    'Mongolia',
+    'Montenegro',
+    'Morocco',
+    'Mozambique',
+    'Myanmar',
+    'Namibia',
+    'Nepal',
+    'Netherlands',
+    'New Zealand',
+    'Nicaragua',
+    'Niger',
+    'Nigeria',
+    'Macedonia',
+    'Norway',
+    'Oman',
+    'Pakistan',
+    'Panama',
+    'Paraguay',
+    'Peru',
+    'Philippines',
+    'Poland',
+    'Portugal',
+    'Qatar',
+    'Romania',
+    'Russia',
+    'Rwanda',
+    'Saudi Arabia',
+    'Senegal',
+    'Serbia',
+    'Seychelles',
+    'Sierra Leone',
+    'Singapore',
+    'Slovakia',
+    'Slovenia',
+    'Somalia',
+    'South Africa',
+    'South Sudan',
+    'Spain',
+    'Sudan',
+    'Suriname',
+    'Sweden',
+    'Switzerland',
+    'Syria',
+    'Taiwan',
+    'Tajikistan',
+    'Tanzania',
+    'Thailand',
+    'Togo',
+    'Tunisia',
+    'Turkey',
+    'Turkmenistan',
+    'Uganda',
+    'Ukraine',
+    'United Arab Emirates',
+    'United Kingdom',
+    'United States',
+    'Uruguay',
+    'Uzbekistan',
+    'Venezuela',
+    'Vietnam',
+    'Yemen',
+    'Zambia',
+    'Zimbabwe',
+  ];
+  var dropdownValue = 'United Kingdom';
+  void selectCountry(v, context) {
+    dropdownValue = v;
+    country = dropdownValue;
+    ufclient.getArticle(context);
+    emit(SetCountryState());
+  }
+
+  var headlines;
+  Future<void> getPopularSearchHeadlines() async {
+    var x = await psClient.getHeadlines();
+    headlines = psClient.trimArticleTitles(x);
+  }
+
+  String now = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  String searchQuery = '';
+  List<dynamic> searchResults = [1];
+  void search(value, context) {
+    if(searchResults.isNotEmpty){
+      searchResults.clear();
+    }
+    emit(LoadingSearchState());
+
+    searchQuery = value;
+    searchClient.searchForArticles(context).then((value) {
+      emit(SuccessSearchState());
+    }).catchError((e) {
+      print(e);
+
+      emit(ErrorSearchState());
+    });
   }
 }
