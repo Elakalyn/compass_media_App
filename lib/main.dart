@@ -7,15 +7,17 @@ import 'Modules/Host/host.dart';
 import 'Network/Local/cacheHelper.dart';
 import 'Shared/Constants/constants.dart';
 import 'cubit/app_cubit.dart';
+import 'cubit/user_profile_cubit.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
-  runApp(const MyApp());
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -24,14 +26,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    
     Widget home;
     if (uid != null) {
       home = const Host();
     } else {
       home = LoginScreen();
     }
-    return BlocProvider(
-      create: (context) => AppCubit()..getPopularSearchHeadlines(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AppCubit()..getPopularSearchHeadlines(),
+        ),
+        BlocProvider(
+          create: (context) => UserProfileCubit()..getProfile(),
+        ),
+      ],
       child: BlocConsumer<AppCubit, AppState>(
         listener: (context, state) {
           // TODO: implement listener

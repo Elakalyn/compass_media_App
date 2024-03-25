@@ -5,12 +5,13 @@ import 'package:compass_app/cubit/app_cubit.dart';
 import 'package:http/http.dart';
 
 import '../../Shared/Models/ArticleModel/articleModel.dart';
+import '../../cubit/user_profile_cubit.dart';
 
 // User Feed API service
 class UserFeedAPI {
   Future<List<Articles>> getArticle(context) async {
     final RegionalEndPoint =
-        "https://newsapi.org/v2/everything?q=${AppCubit.get(context).country}&apiKey=${apiKey}";
+        "https://newsapi.org/v2/everything?q=${UserProfileCubit.get(context).country}&apiKey=${apiKey}";
 
     Response res = await get(Uri.parse(RegionalEndPoint));
 
@@ -135,13 +136,15 @@ class SearchAPI {
 
         List<Articles> articles =
             body.map((dynamic item) => Articles.fromJson(item)).toList();
-        AppCubit.get(context).searchResults = articles;
+
         return articles;
       } catch (e) {
-        throw (e);
+        print('${e.toString()} ERROR');
+
+        rethrow;
       }
     } else {
-      throw ("Can't get the Articles, conntection failed");
+      throw ("Can't get the Articles, Status code doesn't equal 200");
     }
   }
 }

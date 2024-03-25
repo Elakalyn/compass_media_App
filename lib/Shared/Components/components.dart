@@ -166,7 +166,7 @@ Widget? NewsCard(Articles article, BuildContext context) {
       },
       child: Container(
         width: 320.0,
-        height: 322.0,
+        height: 334.0,
         decoration: BoxDecoration(
           color: HexColor('0F1D37'),
           borderRadius: BorderRadius.circular(25),

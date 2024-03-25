@@ -43,9 +43,7 @@ class LoginScreen extends StatelessWidget {
           );
         }
 
-        if (state is SuccessLoginState) {
-          navigateToAndFinish(context, const Host());
-        }
+        print(state);
       },
       builder: (context, state) {
         return Scaffold(
@@ -88,7 +86,6 @@ class LoginScreen extends StatelessWidget {
                             Icons.email,
                             color: Colors.white,
                           ),
-                          
                           filled: true,
                           fillColor: Colors.white.withOpacity(0.3),
                           border: OutlineInputBorder(
@@ -100,7 +97,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20.0),
                       TextFormField(
-                        controller: confirmPasswordController,
+                        controller: passwordController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Field cannnot be left empty.';
@@ -133,28 +130,10 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            AppCubit.get(context)
-                                .loginUser(emailController.text,
-                                    passwordController.text, context)
-                                .then((value) {});
-                          }
-                        },onLongPress: () {
-                        navigateToAndFinish(context, Host());
-                      },
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                        ),
-                        child: Text(
-                          'Login',
-                          style: TextStyle(
-                            color: HexColor('#0F1D37'),
-                          ),
-                        ),
-                      ),
+                      loginButton(
+                          formKey: formKey,
+                          emailController: emailController,
+                          passwordController: passwordController),
                       const SizedBox(height: 10.0),
                       TextButton(
                         onPressed: () {},
@@ -180,6 +159,54 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
         );
+      },
+    );
+  }
+}
+
+class loginButton extends StatelessWidget {
+  const loginButton({
+    super.key,
+    required this.formKey,
+    required this.emailController,
+    required this.passwordController,
+  });
+
+  final GlobalKey<FormState> formKey;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<AppCubit, AppState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        if (state is! LoadingLoginState) {
+          return ElevatedButton(
+            onPressed: () {
+              if (formKey.currentState!.validate()) {
+                AppCubit.get(context).loginUser(
+                    emailController.text, passwordController.text, context);
+              }
+            },
+            onLongPress: () {
+              navigateToAndFinish(context, Host());
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.white),
+            ),
+            child: Text(
+              'Login',
+              style: TextStyle(
+                color: HexColor('#0F1D37'),
+              ),
+            ),
+          );
+        } else {
+          return CircularProgressIndicator();
+        }
       },
     );
   }

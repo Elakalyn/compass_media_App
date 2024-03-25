@@ -16,7 +16,15 @@ class SearchScreen extends StatelessWidget {
     var cubit = AppCubit.get(context);
 
     return BlocConsumer<AppCubit, AppState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        // if (state is LoadingSearchState) {
+        //   cubit.searchResults = [];
+        // }
+        if (cubit.searchQuery.isEmpty) {
+          cubit.searchResults = [];
+        }
+        print(state);
+      },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -24,7 +32,7 @@ class SearchScreen extends StatelessWidget {
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
                   cubit.getPopularSearchHeadlines();
-                  cubit.searchResults.clear();
+                  cubit.searchResults = [];
                   Navigator.pop(context);
                 }),
             iconTheme: IconThemeData(
@@ -68,21 +76,23 @@ class SearchScreen extends StatelessWidget {
                       return 20.h;
                     },
                     itemBuilder: (BuildContext context, int index) {
-                      if (cubit.searchQuery.isEmpty == true) {
+                      if (cubit.searchQuery.isEmpty && cubit.headlines!.isNotEmpty) {
                         return suggestedSearchWidget(
-                          suggestion: cubit.headlines[index],
+                          suggestion: cubit.headlines![index],
                         );
                       } else if (state is LoadingSearchState) {
+                        print('LOADING STATE EMITTED');
+
                         return CircularProgressIndicator();
                       } else if (state is ErrorSearchState) {
-                        return Text('Couldn\'t get search results');
+                        return Text('Failed to get search results.');
                       } else if (state is SuccessSearchState) {
                         return NewsCard(
                           cubit.searchResults[index],
                           context,
                         );
                       }
-                      return Text('Couldn\'t get search results');
+                      return Text('Couldn\'t get search results.');
                     },
                   ),
                 ],

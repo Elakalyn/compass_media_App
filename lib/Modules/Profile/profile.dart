@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
-
+import '../../Shared/Constants/constants.dart';
+import '../../cubit/user_profile_cubit.dart';
 import '../../cubit/app_cubit.dart';
 import '../Host/host.dart';
 
@@ -12,411 +13,419 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = AppCubit.get(context);
-    return BlocConsumer<AppCubit, AppState>(
+    var cubit = UserProfileCubit.get(context);
+    return BlocConsumer<UserProfileCubit, UserProfileCubitState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        if (state is! GetProfileLoadingState) {
+          return Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  navigateToAndFinish(context, Host());
+                },
+              ),
+              centerTitle: true,
+              title: SafeArea(
+                child: Image.asset(
+                  'assets/images/app_Icon.png',
+                  width: 65,
+                  height: 65,
+                ),
+              ),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    40.h,
+                    Container(
+                      width: 323.0,
+                      height: 120.0,
+                      decoration: BoxDecoration(
+                        color: HexColor('0F1D37'),
+                        borderRadius: BorderRadius.circular(25.0),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Color(0x3F000000),
+                            blurRadius: 8,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                          ),
+                          BoxShadow(
+                            color: Color(0x3F000000),
+                            blurRadius: 8,
+                            offset: Offset(0, 4),
+                            spreadRadius: 0,
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                              borderRadius: BorderRadius.circular(25),
+                              child: Image.asset('assets/images/profile.png')),
+                          20.w,
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20.0),
+                            child: Column(
+                              children: [
+                                Text(interuser.get('name'),
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    )),
+                                Text('Created: 9/10/23',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400,
+                                    )),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    40.h,
+                    tabBar(),
+                    40.h,
+                    Row(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Country',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                        DropdownButton<String>(
+                          value: cubit.dropdownValue,
+                          icon: const Icon(Icons.gps_fixed),
+                          style: const TextStyle(color: Colors.black),
+                          selectedItemBuilder: (_) {
+                            return cubit.countries.map<Widget>((String item) {
+                              return Center(
+                                child: Text(
+                                  cubit.country,
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              );
+                            }).toList();
+                          },
+                          underline: Container(
+                            height: 2,
+                            color: Colors.deepPurpleAccent,
+                          ),
+                          onChanged: (value) {
+                            cubit.selectCountry(value, context);
+                          },
+                          items: cubit.countries
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                    40.h,
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Selected Topics',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 26,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    20.h,
+                    if (state is! GetProfileLoadingState) Grid(),
+                    if (state is GetProfileLoadingState)
+                      CircularProgressIndicator(),
+                    40.h,
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Other Topics',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 26,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    20.h,
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 20,
+                      children: [
+                        Container(
+                            width: 152.0,
+                            height: 197.0,
+                            decoration: BoxDecoration(
+                              color: HexColor('132649'),
+                              borderRadius: BorderRadius.circular(25.0),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child:
+                                      Image.asset('assets/sources/NYTimes.png'),
+                                ),
+                                const Text(
+                                  'NY Times',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                const Spacer(),
+                              ],
+                            )),
+                        Container(
+                            width: 152.0,
+                            height: 197.0,
+                            decoration: BoxDecoration(
+                              color: HexColor('132649'),
+                              borderRadius: BorderRadius.circular(25.0),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 4),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Image.asset(
+                                      'assets/sources/GoogleNews.png'),
+                                ),
+                                const Text(
+                                  'Google News',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                const Spacer(),
+                              ],
+                            )),
+                      ],
+                    ),
+                    40.h,
+                    ElevatedButton(
+                      onPressed: () {
+                        cubit.logout(context);
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Colors.red),
+                      ),
+                      child: Text(
+                        'Log out',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
+  }
+}
+
+class Grid extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<UserProfileCubit, UserProfileCubitState>(
       listener: (context, state) {
         // TODO: implement listener
       },
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: (){
-                navigateToAndFinish(context, Host());
-              },
-            ),
-            centerTitle: true,
-            title: SafeArea(
-              child: Image.asset(
-                'assets/images/app_Icon.png',
-                width: 65,
-                height: 65,
-              ),
-            ),
+        var cubit = UserProfileCubit.get(context);
+        var topics = cubit.selectedTopics;
+        var sources = cubit.selectedSources;
+        List<dynamic> names = cubit.displayTopics ? topics : sources;
+        return GridView.builder(
+          itemCount: names.length,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 10.0,
+            crossAxisSpacing: 10.0,
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  40.h,
-                  Container(
-                    width: 323.0,
-                    height: 120.0,
-                    decoration: BoxDecoration(
-                      color: HexColor('0F1D37'),
-                      borderRadius: BorderRadius.circular(25.0),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x3F000000),
-                          blurRadius: 8,
-                          offset: Offset(0, 4),
-                          spreadRadius: 0,
-                        ),
-                        BoxShadow(
-                          color: Color(0x3F000000),
-                          blurRadius: 8,
-                          offset: Offset(0, 4),
-                          spreadRadius: 0,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                            borderRadius: BorderRadius.circular(25),
-                            child: Image.asset('assets/images/profile.png')),
-                        20.w,
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20.0),
-                          child: Column(
-                            children: [
-                              Text('Username',
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                  )),
-                              Text('Created: 9/10/23',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w400,
-                                  )),
-                            ],
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.all(0.0),
-                            child: IconButton(
-                              icon: const Icon(Icons.edit, color: Colors.white),
-                              onPressed: () {},
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  40.h,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Container(
-                          child: const Center(
-                            child: Text(
-                              'Topics',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          child: Center(
-                            child: Text(
-                              'Sources',
-                              style: TextStyle(
-                                color: HexColor('#898989'),
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  40.h,
-                  Row(
-                    children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Country',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      DropdownButton<String>(
-                        value: cubit.dropdownValue,
-                        icon: const Icon(Icons.gps_fixed),
-                        style: const TextStyle(color: Colors.black),
-                        selectedItemBuilder: (_) {
-                          return cubit.countries.map<Widget>((String item) {
-                            return Center(
-                              child: Text(
-                                cubit.country,
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            );
-                          }).toList();
-                        },
-                        underline: Container(
-                          height: 2,
-                          color: Colors.deepPurpleAccent,
-                        ),
-                        onChanged: (value) {
-                          cubit.selectCountry(value,context);
-                        },
-                        items: cubit.countries
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
-                  40.h,
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Selected Topics',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 26,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  20.h,
-                  Wrap(
-                    spacing: 16,
-                    runSpacing: 20,
-                    children: [
-                      Container(
-                          width: 152.0,
-                          height: 197.0,
-                          decoration: BoxDecoration(
-                            color: HexColor('132649'),
-                            borderRadius: BorderRadius.circular(25.0),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Image.asset('assets/sources/BBC.png'),
-                              ),
-                              const Text(
-                                'BBC',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              const Spacer(),
-                            ],
-                          )),
-                      Container(
-                          width: 152.0,
-                          height: 197.0,
-                          decoration: BoxDecoration(
-                            color: HexColor('132649'),
-                            borderRadius: BorderRadius.circular(25.0),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child:
-                                    Image.asset('assets/sources/foxNews.png'),
-                              ),
-                              const Text(
-                                'Fox News',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              const Spacer(),
-                            ],
-                          )),
-                      Container(
-                          width: 152.0,
-                          height: 197.0,
-                          decoration: BoxDecoration(
-                            color: HexColor('132649'),
-                            borderRadius: BorderRadius.circular(25.0),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Image.asset('assets/sources/CNN.png'),
-                              ),
-                              const Text(
-                                'CNN',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              const Spacer(),
-                            ],
-                          )),
-                      Container(
-                          width: 152.0,
-                          height: 197.0,
-                          decoration: BoxDecoration(
-                            color: HexColor('132649'),
-                            borderRadius: BorderRadius.circular(25.0),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child:
-                                    Image.asset('assets/sources/Reuters.png'),
-                              ),
-                              const Text(
-                                'Reuters',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              const Spacer(),
-                            ],
-                          )),
-                    ],
-                  ),
-                  40.h,
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Other Topics',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 26,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  20.h,
-                  Wrap(
-                    spacing: 16,
-                    runSpacing: 20,
-                    children: [
-                      Container(
-                          width: 152.0,
-                          height: 197.0,
-                          decoration: BoxDecoration(
-                            color: HexColor('132649'),
-                            borderRadius: BorderRadius.circular(25.0),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child:
-                                    Image.asset('assets/sources/NYTimes.png'),
-                              ),
-                              const Text(
-                                'NY Times',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              const Spacer(),
-                            ],
-                          )),
-                      Container(
-                          width: 152.0,
-                          height: 197.0,
-                          decoration: BoxDecoration(
-                            color: HexColor('132649'),
-                            borderRadius: BorderRadius.circular(25.0),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 4,
-                                offset: Offset(0, 4),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Image.asset(
-                                    'assets/sources/GoogleNews.png'),
-                              ),
-                              const Text(
-                                'Google News',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              const Spacer(),
-                            ],
-                          )),
-                    ],
-                  ),
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              width: 152.0,
+              height: 197.0,
+              decoration: BoxDecoration(
+                color: const Color(0xFF132649),
+                borderRadius: BorderRadius.circular(25.0),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 4,
+                    offset: Offset(0, 4),
+                    spreadRadius: 0,
+                  )
                 ],
               ),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 111,
+                      child: findAssetImage(
+                        name: names[index],
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      names[index],
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class findAssetImage extends StatelessWidget {
+  findAssetImage({required this.name});
+  final name;
+  @override
+  Widget build(BuildContext context) {
+    switch (name) {
+      // Topics
+      case 'Politics':
+        return Image.asset('assets/images/politics.png');
+      case 'Sports':
+        return Image.asset('assets/images/sports.png');
+      case 'Space':
+        return Image.asset('assets/images/space.png');
+      case 'Technology':
+        return Image.asset('assets/images/technology.png');
+      case 'Business':
+        return Image.asset('assets/images/business.png');
+      case 'Economy':
+        return Image.asset('assets/images/economy.png');
+      // Sources
+      case 'bbc':
+        return Image.asset('assets/sources/BBC.png');
+      case 'cnn':
+        return Image.asset('assets/sources/CNN.png');
+      case 'foxnews':
+        return Image.asset('assets/sources/foxNews.png');
+      case 'googlenews':
+        return Image.asset('assets/sources/GoogleNews.png');
+      case 'nytimes':
+        return Image.asset('assets/sources/NYTimes.png');
+      case 'reuters':
+        return Image.asset('assets/sources/Reuters.png');
+    }
+    return Text('null');
+  }
+}
+
+class tabBar extends StatelessWidget {
+  tabBar();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<UserProfileCubit, UserProfileCubitState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  UserProfileCubit.get(context).changeProfileGrid(true);
+                },
+                child: Container(
+                  child: Center(
+                    child: Text(
+                      'Topics',
+                      style: TextStyle(
+                        color: UserProfileCubit.get(context).displayTopics
+                            ? Colors.white
+                            : HexColor('#898989'),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
-          ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  UserProfileCubit.get(context).changeProfileGrid(false);
+                },
+                child: Container(
+                  child: Center(
+                    child: Text(
+                      'Sources',
+                      style: TextStyle(
+                        color: UserProfileCubit.get(context).displayTopics
+                            ? HexColor('#898989')
+                            : Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         );
       },
     );
