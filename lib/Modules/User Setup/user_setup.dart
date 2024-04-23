@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
+import '../../Shared/cubit/app_cubit.dart';
 import '../../Shared/cubit/user_profile_cubit.dart';
 
 class TopicSelection extends StatelessWidget {
@@ -48,303 +49,23 @@ class TopicSelection extends StatelessWidget {
                               color: Colors.white,
                             )),
                         40.h,
-                        Wrap(
-                          spacing: 16,
-                          runSpacing: 20,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                if (cubit.politicsTopic != true) {
-                                  cubit.SelectTopic('politics');
-                                } else {
-                                  cubit.DeselectTopic('politics');
-                                }
-                              },
-                              child: Container(
-                                  width: 152.0,
-                                  height: 197.0,
-                                  decoration: BoxDecoration(
-                                    color: HexColor('132649'),
-                                    border: cubit.politicsTopic
-                                        ? Border.all(
-                                            color: Color.fromARGB(
-                                                255, 65, 169, 255),
-                                            width: 1)
-                                        : null,
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color(0x3F000000),
-                                        blurRadius: 4,
-                                        offset: Offset(0, 4),
-                                        spreadRadius: 0,
-                                      )
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Image.asset(
-                                            'assets/images/politics.png'),
-                                      ),
-                                      const Spacer(),
-                                      const Text(
-                                        'Politics',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                    ],
-                                  )),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                if (cubit.sportsTopic != true) {
-                                  cubit.SelectTopic('sports');
-                                } else {
-                                  cubit.DeselectTopic('sports');
-                                }
-                              },
-                              child: Container(
-                                  width: 152.0,
-                                  height: 197.0,
-                                  decoration: BoxDecoration(
-                                    color: HexColor('132649'),
-                                    border: cubit.sportsTopic
-                                        ? Border.all(
-                                            color: Color.fromARGB(
-                                                255, 65, 169, 255),
-                                            width: 1)
-                                        : null,
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color(0x3F000000),
-                                        blurRadius: 4,
-                                        offset: Offset(0, 4),
-                                        spreadRadius: 0,
-                                      )
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Image.asset(
-                                            'assets/images/sports.png'),
-                                      ),
-                                      const Spacer(),
-                                      const Text(
-                                        'Sports',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                    ],
-                                  )),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                if (cubit.spaceTopic != true) {
-                                  cubit.SelectTopic('space');
-                                } else {
-                                  cubit.DeselectTopic('space');
-                                }
-                              },
-                              child: Container(
-                                  width: 152.0,
-                                  height: 197,
-                                  decoration: BoxDecoration(
-                                    color: HexColor('132649'),
-                                    border: cubit.spaceTopic
-                                        ? Border.all(
-                                            color: Color.fromARGB(
-                                                255, 65, 169, 255),
-                                            width: 1)
-                                        : null,
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color(0x3F000000),
-                                        blurRadius: 4,
-                                        offset: Offset(0, 4),
-                                        spreadRadius: 0,
-                                      )
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Image.asset(
-                                            'assets/images/space.png'),
-                                      ),
-                                      const Text(
-                                        'Space',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                    ],
-                                  )),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                if (cubit.technologyTopic != true) {
-                                  cubit.SelectTopic('technology');
-                                } else {
-                                  cubit.DeselectTopic('technology');
-                                }
-                              },
-                              child: Container(
-                                  width: 152.0,
-                                  height: 197.0,
-                                  decoration: BoxDecoration(
-                                    color: HexColor('132649'),
-                                    border: cubit.technologyTopic
-                                        ? Border.all(
-                                            color: Color.fromARGB(
-                                                255, 65, 169, 255),
-                                            width: 1)
-                                        : null,
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color(0x3F000000),
-                                        blurRadius: 4,
-                                        offset: Offset(0, 4),
-                                        spreadRadius: 0,
-                                      )
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Image.asset(
-                                            'assets/images/technology.png'),
-                                      ),
-                                      const Spacer(),
-                                      const Text(
-                                        'Technology',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                    ],
-                                  )),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                if (cubit.economyTopic != true) {
-                                  cubit.SelectTopic('economy');
-                                } else {
-                                  cubit.DeselectTopic('economy');
-                                }
-                              },
-                              child: Container(
-                                  width: 152.0,
-                                  height: 197.0,
-                                  decoration: BoxDecoration(
-                                    color: HexColor('132649'),
-                                    border: cubit.economyTopic
-                                        ? Border.all(
-                                            color: Color.fromARGB(
-                                                255, 65, 169, 255),
-                                            width: 1)
-                                        : null,
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color(0x3F000000),
-                                        blurRadius: 4,
-                                        offset: Offset(0, 4),
-                                        spreadRadius: 0,
-                                      )
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Image.asset(
-                                            'assets/images/economy.png'),
-                                      ),
-                                      const Spacer(),
-                                      const Text(
-                                        'Economy',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                    ],
-                                  )),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                if (cubit.businessTopic != true) {
-                                  cubit.SelectTopic('business');
-                                } else {
-                                  cubit.DeselectTopic('business');
-                                }
-                              },
-                              child: Container(
-                                  width: 152.0,
-                                  height: 197.0,
-                                  decoration: BoxDecoration(
-                                    color: HexColor('132649'),
-                                    border: cubit.businessTopic
-                                        ? Border.all(
-                                            color: Color.fromARGB(
-                                                255, 65, 169, 255),
-                                            width: 1)
-                                        : null,
-                                    borderRadius: BorderRadius.circular(25.0),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color(0x3F000000),
-                                        blurRadius: 4,
-                                        offset: Offset(0, 4),
-                                        spreadRadius: 0,
-                                      )
-                                    ],
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Image.asset(
-                                            'assets/images/business.png'),
-                                      ),
-                                      const Text(
-                                        'Business',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                    ],
-                                  )),
-                            ),
-                          ],
+                        GridView.builder(
+                          shrinkWrap: true,
+                          itemCount: cubit.topics.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: .7,
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 10.0,
+                            crossAxisSpacing: 10.0,
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            return elementCard(
+                              type: 'topics',
+                              name: cubit.topics[index],
+                            );
+                          },
                         ),
                         140.h,
                       ],
@@ -353,7 +74,7 @@ class TopicSelection extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    cubit.topicsAreSelected()
+                    cubit.selectedTopics.isNotEmpty
                         ? navigateTo(context, SourceSelection())
                         : ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(
@@ -370,10 +91,12 @@ class TopicSelection extends StatelessWidget {
                         Stack(alignment: Alignment.center, children: <Widget>[
                       Image.asset(
                         'assets/images/CTA_Button.png',
-                        color: cubit.topicsAreSelected() ? null : Colors.grey,
+                        color: cubit.selectedTopics.isNotEmpty
+                            ? null
+                            : Colors.grey,
                       ),
                       Text(
-                        'Select Topics [${cubit.numbersOfTopics}]',
+                        'Select Topics [${cubit.selectedTopics.length}]',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,
@@ -389,6 +112,121 @@ class TopicSelection extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class elementCard extends StatelessWidget {
+  const elementCard({
+    super.key,
+    required this.name,
+    required this.type,
+  });
+  final String name;
+  final String type;
+  @override
+  Widget build(BuildContext context) {
+    var cubit = UserProfileCubit.get(context);
+    if (type == 'topics') {
+      return BlocConsumer<AppCubit, AppState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          return GestureDetector(
+            onTap: () {
+              cubit.SelectTopic(name);
+            },
+            child: Container(
+                width: 152.0,
+                height: 197.0,
+                decoration: BoxDecoration(
+                  color: HexColor('132649'),
+                  border: cubit.selectedTopics.contains(name)
+                      ? Border.all(
+                          color: Color.fromARGB(255, 65, 169, 255), width: 1)
+                      : null,
+                  borderRadius: BorderRadius.circular(25.0),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x3F000000),
+                      blurRadius: 4,
+                      offset: Offset(0, 4),
+                      spreadRadius: 0,
+                    )
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: cubit.imageBuilder(name),
+                    ),
+                    const Spacer(),
+                    Text(
+                      name.capitalize(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const Spacer(),
+                  ],
+                )),
+          );
+        },
+      );
+    } else {
+      return BlocConsumer<AppCubit, AppState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          return GestureDetector(
+            onTap: () {
+              cubit.SelectSource(name);
+            },
+            child: Container(
+                width: 152.0,
+                height: 197.0,
+                decoration: BoxDecoration(
+                  color: HexColor('132649'),
+                  border: cubit.selectedSources.contains(name)
+                      ? Border.all(
+                          color: Color.fromARGB(255, 65, 169, 255), width: 1)
+                      : null,
+                  borderRadius: BorderRadius.circular(25.0),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x3F000000),
+                      blurRadius: 4,
+                      offset: Offset(0, 4),
+                      spreadRadius: 0,
+                    )
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: cubit.imageBuilder(name),
+                    ),
+                    const Spacer(),
+                    Text(
+                      name.capitalize(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const Spacer(),
+                  ],
+                )),
+          );
+        },
+      );
+    }
   }
 }
 
@@ -442,299 +280,22 @@ class SourceSelection extends StatelessWidget {
                             color: Colors.white,
                           )),
                       40.h,
-                      Wrap(
-                        spacing: 16,
-                        runSpacing: 20,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              if (cubit.bbc != true) {
-                                cubit.SelectSource('bbc');
-                              } else {
-                                cubit.SelectSource('bbc');
-                              }
-                            },
-                            child: Container(
-                                width: 152.0,
-                                height: 197.0,
-                                decoration: BoxDecoration(
-                                  color: HexColor('132649'),
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  border: cubit.bbc
-                                      ? Border.all(
-                                          color:
-                                              Color.fromARGB(255, 65, 169, 255),
-                                          width: 1)
-                                      : null,
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x3F000000),
-                                      blurRadius: 4,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 0,
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child:
-                                          Image.asset('assets/sources/BBC.png'),
-                                    ),
-                                    const Text(
-                                      'BBC',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                  ],
-                                )),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              if (cubit.foxnews != true) {
-                                cubit.SelectSource('foxnews');
-                              } else {
-                                cubit.SelectSource('foxnews');
-                              }
-                            },
-                            child: Container(
-                                width: 152.0,
-                                height: 197.0,
-                                decoration: BoxDecoration(
-                                  color: HexColor('132649'),
-                                  border: cubit.foxnews
-                                      ? Border.all(
-                                          color:
-                                              Color.fromARGB(255, 65, 169, 255),
-                                          width: 1)
-                                      : null,
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x3F000000),
-                                      blurRadius: 4,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 0,
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Image.asset(
-                                          'assets/sources/foxNews.png'),
-                                    ),
-                                    const Text(
-                                      'Fox News',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                  ],
-                                )),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              if (cubit.cnn != true) {
-                                cubit.SelectSource('cnn');
-                              } else {
-                                cubit.SelectSource('cnn');
-                              }
-                            },
-                            child: Container(
-                                width: 152.0,
-                                height: 197.0,
-                                decoration: BoxDecoration(
-                                  color: HexColor('132649'),
-                                  border: cubit.cnn
-                                      ? Border.all(
-                                          color:
-                                              Color.fromARGB(255, 65, 169, 255),
-                                          width: 1)
-                                      : null,
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x3F000000),
-                                      blurRadius: 4,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 0,
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child:
-                                          Image.asset('assets/sources/CNN.png'),
-                                    ),
-                                    const Text(
-                                      'CNN',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                  ],
-                                )),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              if (cubit.reuters != true) {
-                                cubit.SelectSource('reuters');
-                              } else {
-                                cubit.SelectSource('reuters');
-                              }
-                            },
-                            child: Container(
-                                width: 152.0,
-                                height: 197.0,
-                                decoration: BoxDecoration(
-                                  border: cubit.reuters
-                                      ? Border.all(
-                                          color:
-                                              Color.fromARGB(255, 65, 169, 255),
-                                          width: 1)
-                                      : null,
-                                  color: HexColor('132649'),
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x3F000000),
-                                      blurRadius: 4,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 0,
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Image.asset(
-                                          'assets/sources/Reuters.png'),
-                                    ),
-                                    const Text(
-                                      'Reuters',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                  ],
-                                )),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              if (cubit.nytimes != true) {
-                                cubit.SelectSource('nytimes');
-                              } else {
-                                cubit.SelectSource('nytimes');
-                              }
-                            },
-                            child: Container(
-                                width: 152.0,
-                                height: 197.0,
-                                decoration: BoxDecoration(
-                                  border: cubit.nytimes
-                                      ? Border.all(
-                                          color:
-                                              Color.fromARGB(255, 65, 169, 255),
-                                          width: 1)
-                                      : null,
-                                  color: HexColor('132649'),
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x3F000000),
-                                      blurRadius: 4,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 0,
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Image.asset(
-                                          'assets/sources/NYTimes.png'),
-                                    ),
-                                    const Text(
-                                      'NY Times',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                  ],
-                                )),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              if (cubit.googlenews != true) {
-                                cubit.SelectSource('googlenews');
-                              } else {
-                                cubit.SelectSource('googlenews');
-                              }
-                            },
-                            child: Container(
-                                width: 152.0,
-                                height: 197.0,
-                                decoration: BoxDecoration(
-                                  color: HexColor('132649'),
-                                  borderRadius: BorderRadius.circular(25.0),
-                                  border: cubit.googlenews
-                                      ? Border.all(
-                                          color:
-                                              Color.fromARGB(255, 65, 169, 255),
-                                          width: 1)
-                                      : null,
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color(0x3F000000),
-                                      blurRadius: 4,
-                                      offset: Offset(0, 4),
-                                      spreadRadius: 0,
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Image.asset(
-                                          'assets/sources/GoogleNews.png'),
-                                    ),
-                                    const Text(
-                                      'Google News',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                  ],
-                                )),
-                          ),
-                        ],
+                      GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: cubit.sources.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: .7,
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10.0,
+                          crossAxisSpacing: 10.0,
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return elementCard(
+                            type: 'sources',
+                            name: cubit.sources[index],
+                          );
+                        },
                       ),
                       140.h,
                     ],
@@ -744,7 +305,7 @@ class SourceSelection extends StatelessWidget {
               if (state is! SetProfileLoadingState)
                 GestureDetector(
                   onTap: () {
-                     cubit.setProfile(context);
+                    cubit.setProfile(context);
                   },
                   child: Align(
                     alignment: Alignment.bottomCenter,
@@ -752,10 +313,12 @@ class SourceSelection extends StatelessWidget {
                         Stack(alignment: Alignment.center, children: <Widget>[
                       Image.asset(
                         'assets/images/CTA_Button.png',
-                        color: cubit.sourcesAreSelected() ? null : Colors.grey,
+                        color: cubit.selectedSources.isNotEmpty
+                            ? null
+                            : Colors.grey,
                       ),
                       Text(
-                        'Select Sources [${cubit.numbersOfSources}]',
+                        'Select Sources [${cubit.selectedSources.length}]',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,

@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
-
-import '../../Network/Remote/api_handling.dart';
 import '../../Shared/Components/components.dart';
-import '../../Shared/Models/ArticleModel/articleModel.dart';
 
 class GlobalScreen extends StatelessWidget {
   const GlobalScreen({super.key});
@@ -70,7 +67,7 @@ class GlobalScreen extends StatelessWidget {
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(children: [
-                20.h,
+                10.h,
                 const Row(
                   children: [
                     Text(

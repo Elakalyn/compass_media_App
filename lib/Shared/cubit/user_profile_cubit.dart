@@ -13,241 +13,75 @@ part 'user_profile_state.dart';
 class UserProfileCubit extends Cubit<UserProfileCubitState> {
   UserProfileCubit() : super(UserProfileCubitInitial());
   static UserProfileCubit get(context) => BlocProvider.of(context);
-
-  bool politicsTopic = false;
-  bool sportsTopic = false;
-  bool spaceTopic = false;
-  bool technologyTopic = false;
-  bool economyTopic = false;
-  bool businessTopic = false;
+  // Add topics/sources from here
+  List<String> topics = [
+    'politics',
+    'sports',
+    'space',
+    'technology',
+    'economy',
+    'business',
+  ];
+  List<String> sources = [
+    'BBC',
+    'CNN',
+    'reuters',
+    'google News',
+    'fox News',
+    'NY Times',
+  ];
+  Widget imageBuilder(image) {
+    switch (image) {
+      // Topics
+      case 'politics':
+        return Image.asset('assets/images/politics.png');
+      case 'sports':
+        return Image.asset('assets/images/sports.png');
+      case 'space':
+        return Image.asset('assets/images/space.png');
+      case 'technology':
+        return Image.asset('assets/images/technology.png');
+      case 'business':
+        return Image.asset('assets/images/business.png');
+      case 'economy':
+        return Image.asset('assets/images/economy.png');
+      // Sources
+      case 'BBC':
+        return Image.asset('assets/sources/BBC.png');
+      case 'CNN':
+        return Image.asset('assets/sources/CNN.png');
+      case 'fox News':
+        return Image.asset('assets/sources/foxNews.png');
+      case 'google News':
+        return Image.asset('assets/sources/GoogleNews.png');
+      case 'NY Times':
+        return Image.asset('assets/sources/NYTimes.png');
+      case 'reuters':
+        return Image.asset('assets/sources/Reuters.png');
+    }
+    return Text('null');
+  }
 
   List<dynamic> selectedTopics = [];
   SelectTopic(String topic) {
-    switch (topic) {
-      case 'politics':
-        politicsTopic = true;
-        selectedTopics.add('politics');
-        break;
-      case 'sports':
-        sportsTopic = true;
-        selectedTopics.add('sports');
-
-        break;
-      case 'space':
-        spaceTopic = true;
-        selectedTopics.add('space');
-
-        break;
-      case 'technology':
-        technologyTopic = true;
-        selectedTopics.add('technology');
-
-        break;
-      case 'economy':
-        economyTopic = true;
-        selectedTopics.add('economy');
-
-        break;
-      case 'business':
-        businessTopic = true;
-        selectedTopics.add('business');
-
-        break;
+    if (selectedTopics.contains(topic) == false) {
+      selectedTopics.add(topic);
+    } else if (selectedTopics.contains(topic)) {
+      selectedTopics.remove(topic);
     }
-    List<bool> topics = [
-      politicsTopic,
-      sportsTopic,
-      spaceTopic,
-      technologyTopic,
-      economyTopic,
-      businessTopic,
-    ];
-    countTopics(topics);
     emit(TopicSelectionState());
-  }
-
-  DeselectTopic(String topic) {
-    switch (topic) {
-      case 'politics':
-        politicsTopic = false;
-        selectedTopics.remove('politics');
-
-        break;
-      case 'sports':
-        sportsTopic = false;
-        selectedTopics.remove('sports');
-
-        break;
-      case 'space':
-        spaceTopic = false;
-        selectedTopics.remove('space');
-
-        break;
-      case 'technology':
-        technologyTopic = false;
-        selectedTopics.remove('technology');
-
-        break;
-      case 'economy':
-        economyTopic = false;
-        selectedTopics.remove('economy');
-
-        break;
-      case 'business':
-        businessTopic = false;
-        selectedTopics.remove('business');
-
-        break;
-    }
-    List<bool> topics = [
-      politicsTopic,
-      sportsTopic,
-      spaceTopic,
-      technologyTopic,
-      economyTopic,
-      businessTopic,
-    ];
-    countTopics(topics);
-    emit(TopicSelectionState());
-  }
-
-  int numbersOfTopics = 0;
-
-  void countTopics(List<bool> boolList) {
-    int topics = 0;
-    for (bool value in boolList) {
-      if (value == true) {
-        topics++;
-      }
-    }
-    numbersOfTopics = topics;
-  }
-
-  bool topicsAreSelected() {
-    if (numbersOfTopics > 0) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   // SOURCES
 
-  bool bbc = false;
-  bool foxnews = false;
-  bool cnn = false;
-  bool reuters = false;
-  bool nytimes = false;
-  bool googlenews = false;
   List<dynamic> selectedSources = [];
   SelectSource(String source) {
-    switch (source) {
-      case 'bbc':
-        bbc = true;
-        selectedSources.add('bbc');
-
-        break;
-      case 'foxnews':
-        foxnews = true;
-        selectedSources.add('foxnews');
-
-        break;
-      case 'cnn':
-        cnn = true;
-        selectedSources.add('cnn');
-
-        break;
-      case 'reuters':
-        reuters = true;
-        selectedSources.add('reuters');
-
-        break;
-      case 'nytimes':
-        nytimes = true;
-        selectedSources.add('nytimes');
-
-        break;
-      case 'googlenews':
-        googlenews = true;
-        selectedSources.add('googlenews');
-
-        break;
+    if (selectedSources.contains(source) == false) {
+      selectedSources.add(source);
+    } else if (selectedSources.contains(source)) {
+      selectedSources.remove(source);
     }
-    List<bool> sources = [
-      bbc,
-      foxnews,
-      cnn,
-      reuters,
-      nytimes,
-      googlenews,
-    ];
-    countSources(sources);
     emit(SourceSelectionState());
-  }
-
-  DeselectSource(String source) {
-    switch (source) {
-      case 'bbc':
-        bbc = false;
-        selectedSources.remove('bbc');
-
-        break;
-      case 'foxnews':
-        foxnews = false;
-        selectedSources.remove('foxnews');
-
-        break;
-      case 'cnn':
-        cnn = false;
-        selectedSources.remove('cnn');
-
-        break;
-      case 'reuters':
-        reuters = false;
-        selectedSources.remove('reuters');
-
-        break;
-      case 'nytimes':
-        nytimes = false;
-        selectedSources.remove('nytimes');
-
-        break;
-      case 'googlenews':
-        googlenews = false;
-        selectedSources.remove('googlenews');
-
-        break;
-    }
-    List<bool> sources = [
-      bbc,
-      foxnews,
-      cnn,
-      reuters,
-      nytimes,
-      googlenews,
-    ];
-    countSources(sources);
-    emit(SourceSelectionState());
-  }
-
-  int numbersOfSources = 0;
-
-  void countSources(List<bool> boolList) {
-    int sources = 0;
-    for (bool value in boolList) {
-      if (value == true) {
-        sources++;
-      }
-    }
-    numbersOfSources = sources;
-  }
-
-  bool sourcesAreSelected() {
-    if (numbersOfSources > 0) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   Future<void> getProfile() async {
