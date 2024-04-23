@@ -1,5 +1,6 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, curly_braces_in_flow_control_structures
 
+import 'package:compass_app/Shared/cubit/user_profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
@@ -17,11 +18,11 @@ class GlobalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-       // navigateTo(context, const ArticleViewScreen());
+        // navigateTo(context, const ArticleViewScreen());
       },
       child: Container(
         width: 320.0,
-        height: 430.0,
+        height: 430.0 + 17,
         decoration: BoxDecoration(
           color: HexColor('0F1D37'),
           borderRadius: BorderRadius.circular(25),
@@ -162,7 +163,13 @@ Widget? NewsCard(Articles article, BuildContext context) {
   if (article.urlToImage != null)
     return GestureDetector(
       onTap: () {
-        navigateTo(context, ArticleViewScreen(image: article.urlToImage,name: article.title,content: article.content,));
+        navigateTo(
+            context,
+            ArticleViewScreen(
+              image: article.urlToImage,
+              name: article.title,
+              content: article.content,
+            ));
       },
       child: Container(
         width: 320.0,
@@ -194,63 +201,74 @@ Widget? NewsCard(Articles article, BuildContext context) {
               12.h,
               Row(
                 children: [
-                  Container(
-                    width: 80,
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 25,
-                            height: 25,
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(25),
-                                child: Image.asset('assets/sources/BBC.png')),
-                          ),
-                          8.w,
-                          const Text(
-                            'BBC',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 25,
+                              height: 25,
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(25),
+                                  child: Image.asset('assets/sources/BBC.png')),
                             ),
-                          )
-                        ],
+                            8.w,
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  article.source!.name!,  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                  
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            8.w,
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   8.w,
-                  Container(
-                    width: 110,
-                    decoration: BoxDecoration(
-                      color: HexColor('0040B8'),
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 25,
-                            height: 25,
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(25),
-                                child: Image.asset(
-                                    'assets/images/politicsIcon.png')),
-                          ),
-                          8.w,
-                          const Text(
-                            'POLITICS',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
+                  Expanded(
+                    child: Container(
+                      width: 110,
+                      decoration: BoxDecoration(
+                        color: HexColor('0040B8'),
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 25,
+                              height: 25,
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(25),
+                                  child: Image.asset(
+                                      'assets/images/politicsIcon.png')),
                             ),
-                          )
-                        ],
+                            8.w,
+                            Center(
+                              child: Text(
+                                'POLITICS',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -274,7 +292,6 @@ Widget? NewsCard(Articles article, BuildContext context) {
     );
 
   if (article.urlToImage == null) return null;
- 
 }
 
 Future<void> navigateToAndFinish(context, widget) async =>
@@ -298,6 +315,7 @@ class profileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        UserProfileCubit.get(context).getProfile();
         navigateToAndFinish(context, const ProfileScreen());
       },
       child: const CircleAvatar(

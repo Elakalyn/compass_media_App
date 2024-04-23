@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
-import '../../cubit/user_profile_cubit.dart';
+import '../../Shared/cubit/user_profile_cubit.dart';
 
 class TopicSelection extends StatelessWidget {
   TopicSelection({super.key});

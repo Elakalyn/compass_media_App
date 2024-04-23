@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'Modules/Authentication/login.dart';
-import 'Modules/Host/host.dart';
+import 'Modules/Layout/layout.dart';
 import 'Network/Local/cacheHelper.dart';
+import 'Network/Remote/api_handling.dart';
 import 'Shared/Constants/constants.dart';
-import 'cubit/app_cubit.dart';
-import 'cubit/user_profile_cubit.dart';
+import 'Shared/cubit/app_cubit.dart';
+import 'Shared/cubit/user_profile_cubit.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
+  await DioHelper.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -26,7 +28,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    
     Widget home;
     if (uid != null) {
       home = const Host();
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AppCubit()..getPopularSearchHeadlines(),
+          create: (context) => AppCubit()..getFeedArticles(),
         ),
         BlocProvider(
           create: (context) => UserProfileCubit()..getProfile(),

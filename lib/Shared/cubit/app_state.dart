@@ -5,6 +5,8 @@ sealed class AppState {}
 
 final class AppInitial extends AppState {}
 
+// MISC STATES
+
 class SuffixChangeState extends AppState {}
 
 final class BNBChangeState extends AppState {}
@@ -22,6 +24,13 @@ class LoadingRegisterState extends AppState {}
 class ErrorRegisterState extends AppState {}
 
 class SuccessRegisterState extends AppState {}
+
+// GET ARTICLES STATES
+class LoadingGetArticlesState extends AppState {}
+
+class ErrorGetArticlesState extends AppState {}
+
+class SuccessGetArticlesState extends AppState {}
 
 // SEARCH STATES
 class LoadingSearchState extends AppState {}

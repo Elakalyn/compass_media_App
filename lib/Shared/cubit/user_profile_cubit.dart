@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:compass_app/Shared/Constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../Modules/Authentication/login.dart';
-import '../Modules/Host/host.dart';
-import '../Network/Local/cacheHelper.dart';
-import '../Network/Remote/apiService.dart';
-import '../Shared/Components/components.dart';
+import '../../Modules/Authentication/login.dart';
+import '../../Modules/Layout/layout.dart';
+import '../../Network/Local/cacheHelper.dart';
+import '../../Network/Remote/api_handling.dart';
+import '../Components/components.dart';
 
 part 'user_profile_state.dart';
 
@@ -451,7 +451,7 @@ class UserProfileCubit extends Cubit<UserProfileCubitState> {
   void selectCountry(v, context) {
     dropdownValue = v;
     country = dropdownValue;
-    ufclient.getArticle(context);
+
     emit(SetCountryState());
   }
 

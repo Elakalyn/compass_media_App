@@ -1,19 +1,21 @@
 import 'package:compass_app/Modules/Global/globalScreen.dart';
 import 'package:compass_app/Modules/Home/home.dart';
-import 'package:compass_app/Network/Remote/apiService.dart';
+import 'package:compass_app/Network/Remote/api_handling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../Modules/Authentication/login.dart';
-import '../Modules/Host/host.dart';
-import '../Modules/Settings/settings.dart';
-import '../Modules/User Setup/user_setup.dart';
-import '../Network/Local/cacheHelper.dart';
-import '../Shared/Components/components.dart';
+import '../../Modules/Authentication/login.dart';
+import '../../Modules/Layout/layout.dart';
+import '../../Modules/Settings/settings.dart';
+import '../../Modules/User Setup/user_setup.dart';
+import '../../Network/Local/cacheHelper.dart';
+import '../../Network/Remote/.apiKey.dart';
+import '../Components/components.dart';
 import 'package:intl/intl.dart';
 
-import '../Shared/Constants/constants.dart';
+import '../Constants/constants.dart';
+import '../Models/ArticleModel/articleModel.dart';
 import 'user_profile_cubit.dart';
 
 part 'app_state.dart';
@@ -43,6 +45,14 @@ class AppCubit extends Cubit<AppState> {
 
   void changeIndex(index) {
     indexs = index;
+    switch (index) {
+      case 0:
+        getFeedArticles();
+        break;
+      case 1:
+        getGlobalArticles();
+        break;
+    }
     emit(BNBChangeState());
   }
 
@@ -77,7 +87,7 @@ class AppCubit extends Cubit<AppState> {
         });
         await CacheHelper.saveData(key: 'uid', value: value.user?.uid);
         uid = await CacheHelper.getData(key: 'uid');
-       
+
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Colors.green,
           content: Text("Account created successfully!",
@@ -159,27 +169,46 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-  List<String>? headlines = [];
-  Future<void> getPopularSearchHeadlines() async {
-    var x = await psClient.getHeadlines();
-    headlines = psClient.trimArticleTitles(x);
+  // News Getters
+  var globalArticles;
+  void getGlobalArticles() {
+    emit(LoadingGetArticlesState());
+    DioHelper.getData(
+      url: 'v2/top-headlines',
+      query: {
+        'language': 'en',
+        'apiKey': apiKey,
+      },
+    ).then((value) {
+      var responseData = value.data as Map<String, dynamic>;
+      ArticleModel articleModel = ArticleModel.fromJson(responseData);
+      globalArticles = articleModel.articles;
+
+      emit(SuccessGetArticlesState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(ErrorGetArticlesState());
+    });
   }
 
-  String now = DateFormat('yyyy-MM-dd').format(DateTime.now());
-  String searchQuery = '';
-  List<dynamic> searchResults = [1];
-  void search(value, context) {
-    emit(LoadingSearchState());
-
-    searchQuery = value;
-    searchClient.searchForArticles(context).then((value) {
-      searchResults = [];
-      searchResults = value;
-      emit(SuccessSearchState());
-    }).catchError((e) {
-      print(e);
-
-      emit(ErrorSearchState());
+  var feedArticles;
+  void getFeedArticles() {
+    emit(LoadingGetArticlesState());
+    DioHelper.getData(
+      url: 'v2/top-headlines',
+      query: {
+        'category': 'business',
+        'language': 'en',
+        'apiKey': apiKey,
+      },
+    ).then((value) {
+      var responseData = value.data as Map<String, dynamic>;
+      ArticleModel articleModel = ArticleModel.fromJson(responseData);
+      feedArticles = articleModel.articles;
+      emit(SuccessGetArticlesState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(ErrorGetArticlesState());
     });
   }
 }

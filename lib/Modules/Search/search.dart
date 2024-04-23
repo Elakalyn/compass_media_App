@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:compass_app/cubit/app_cubit.dart';
+import 'package:compass_app/Shared/cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -16,23 +16,13 @@ class SearchScreen extends StatelessWidget {
     var cubit = AppCubit.get(context);
 
     return BlocConsumer<AppCubit, AppState>(
-      listener: (context, state) {
-        // if (state is LoadingSearchState) {
-        //   cubit.searchResults = [];
-        // }
-        if (cubit.searchQuery.isEmpty) {
-          cubit.searchResults = [];
-        }
-        print(state);
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
             leading: IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
-                  cubit.getPopularSearchHeadlines();
-                  cubit.searchResults = [];
                   Navigator.pop(context);
                 }),
             iconTheme: IconThemeData(
@@ -71,29 +61,11 @@ class SearchScreen extends StatelessWidget {
                   ListView.separated(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: cubit.searchResults.length,
+                    itemCount: 0,
                     separatorBuilder: (BuildContext context, int index) {
                       return 20.h;
                     },
-                    itemBuilder: (BuildContext context, int index) {
-                      if (cubit.searchQuery.isEmpty && cubit.headlines!.isNotEmpty) {
-                        return suggestedSearchWidget(
-                          suggestion: cubit.headlines![index],
-                        );
-                      } else if (state is LoadingSearchState) {
-                        print('LOADING STATE EMITTED');
-
-                        return CircularProgressIndicator();
-                      } else if (state is ErrorSearchState) {
-                        return Text('Failed to get search results.');
-                      } else if (state is SuccessSearchState) {
-                        return NewsCard(
-                          cubit.searchResults[index],
-                          context,
-                        );
-                      }
-                      return Text('Couldn\'t get search results.');
-                    },
+                    itemBuilder: (BuildContext context, int index) {},
                   ),
                 ],
               ),
@@ -151,7 +123,6 @@ class SearchBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(35.0),
       ),
       child: TextField(
-        onChanged: (v) => AppCubit.get(context).search(v, context),
         style: TextStyle(
           fontSize: 16.0,
           color: Colors.white,

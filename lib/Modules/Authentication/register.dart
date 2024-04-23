@@ -5,8 +5,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 
 import '../../Shared/Components/components.dart';
-import '../../cubit/app_cubit.dart';
-import '../Host/host.dart';
+import '../../Shared/cubit/app_cubit.dart';
+import '../Layout/layout.dart';
 
 var emailController = TextEditingController();
 var passwordController = TextEditingController();

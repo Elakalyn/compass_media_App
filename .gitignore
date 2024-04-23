@@ -45,3 +45,4 @@ app.*.map.json
 
 # Endpoints
 /lib/Network/Remote/.endpoints.dart
+/lib/Network/Remote/.apiKey.dart

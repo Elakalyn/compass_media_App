@@ -4,9 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 import '../../Shared/Constants/constants.dart';
-import '../../cubit/user_profile_cubit.dart';
-import '../../cubit/app_cubit.dart';
-import '../Host/host.dart';
+import '../../Shared/cubit/user_profile_cubit.dart';
+import '../Layout/layout.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -138,10 +137,12 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                     40.h,
-                    const Align(
+                    Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Selected Topics',
+                        cubit.displayTopics
+                            ? 'Selected Topics'
+                            : 'Selected Sources',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 26,
@@ -166,78 +167,12 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     20.h,
-                    Wrap(
-                      spacing: 16,
-                      runSpacing: 20,
-                      children: [
-                        Container(
-                            width: 152.0,
-                            height: 197.0,
-                            decoration: BoxDecoration(
-                              color: HexColor('132649'),
-                              borderRadius: BorderRadius.circular(25.0),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color(0x3F000000),
-                                  blurRadius: 4,
-                                  offset: Offset(0, 4),
-                                  spreadRadius: 0,
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child:
-                                      Image.asset('assets/sources/NYTimes.png'),
-                                ),
-                                const Text(
-                                  'NY Times',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                const Spacer(),
-                              ],
-                            )),
-                        Container(
-                            width: 152.0,
-                            height: 197.0,
-                            decoration: BoxDecoration(
-                              color: HexColor('132649'),
-                              borderRadius: BorderRadius.circular(25.0),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color(0x3F000000),
-                                  blurRadius: 4,
-                                  offset: Offset(0, 4),
-                                  spreadRadius: 0,
-                                )
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Image.asset(
-                                      'assets/sources/GoogleNews.png'),
-                                ),
-                                const Text(
-                                  'Google News',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                const Spacer(),
-                              ],
-                            )),
-                      ],
-                    ),
+                    if (state is! GetProfileLoadingState)
+                      Grid(
+                        existing: true,
+                      ),
+                    if (state is GetProfileLoadingState)
+                      CircularProgressIndicator(),
                     40.h,
                     ElevatedButton(
                       onPressed: () {
@@ -267,6 +202,8 @@ class ProfileScreen extends StatelessWidget {
 }
 
 class Grid extends StatelessWidget {
+  Grid({this.existing});
+  final existing;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserProfileCubit, UserProfileCubitState>(
@@ -275,9 +212,30 @@ class Grid extends StatelessWidget {
       },
       builder: (context, state) {
         var cubit = UserProfileCubit.get(context);
-        var topics = cubit.selectedTopics;
-        var sources = cubit.selectedSources;
-        List<dynamic> names = cubit.displayTopics ? topics : sources;
+        List<dynamic> sources = [];
+        List<dynamic> topics = [];
+
+        var names;
+        if (existing == null) {
+          topics = cubit.selectedTopics;
+          sources = cubit.selectedSources;
+          names = cubit.displayTopics ? topics : sources;
+        } else {
+          sources = ['bbc-news', 'reuters', 'cnn', 'google-news'];
+          sources.removeWhere(
+              (element) => cubit.selectedSources.contains(element));
+          topics = [
+            'Politics',
+            'Business',
+            'Economy',
+            'Space',
+            'Technology',
+            'Sports'
+          ];
+          topics
+              .removeWhere((element) => cubit.selectedTopics.contains(element));
+          names = cubit.displayTopics ? topics : sources;
+        }
         return GridView.builder(
           itemCount: names.length,
           shrinkWrap: true,

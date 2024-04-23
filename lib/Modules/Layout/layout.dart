@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
-import '../../cubit/app_cubit.dart';
+import '../../Shared/cubit/app_cubit.dart';
 
 
 class Host extends StatelessWidget {
