@@ -4,8 +4,8 @@ import 'package:hexcolor/hexcolor.dart';
 import '../../Shared/cubit/app_cubit.dart';
 
 
-class Host extends StatelessWidget {
-  const Host({super.key});
+class Layout extends StatelessWidget {
+  const Layout({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -192,7 +192,7 @@ class loginButton extends StatelessWidget {
               }
             },
             onLongPress: () {
-              navigateToAndFinish(context, Host());
+              navigateToAndFinish(context, Layout());
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(Colors.white),

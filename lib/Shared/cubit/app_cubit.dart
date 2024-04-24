@@ -51,6 +51,7 @@ class AppCubit extends Cubit<AppState> {
         break;
       case 1:
         getGlobalArticles();
+        getGlobalCardArticle();
         break;
     }
     emit(BNBChangeState());
@@ -149,7 +150,7 @@ class AppCubit extends Cubit<AppState> {
           duration: Duration(seconds: 3),
         ));
 
-        navigateToAndFinish(context, Host());
+        navigateToAndFinish(context, Layout());
         emit(SuccessLoginState());
 
         return value;
@@ -169,6 +170,69 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
+  void bookmark({
+    required var title,
+    required var urlToImage,
+    required var source,
+    required var content,
+  }) {
+    Map<String, dynamic> articleData = {
+      'title': title,
+      'urlToImage': urlToImage,
+      'source': source,
+      'content': content,
+    };
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('bookmarks')
+        .add(articleData)
+        .then((value) {
+      emit(RemoveBookmarkState());
+    });
+  }
+
+  Future<bool> checkBookmarkStatus(String title) async {
+    final bookmarksCollection = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('bookmarks'); // Specify the subcollection if applicable
+
+    final snapshot =
+        await bookmarksCollection.where('title', isEqualTo: title).get();
+
+    if (snapshot.docs.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<void> removeBookmark({required var title}) async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('bookmarks')
+        .where('title', isEqualTo: title)
+        .get();
+
+    final documents = querySnapshot.docs;
+
+    if (documents.isNotEmpty) {
+      final document = documents[0];
+      final docRef = document.reference;
+
+      docRef.delete().then((_) {
+        emit(RemoveBookmarkState());
+      }).catchError((error) {
+        print("Error deleting document: $error");
+        emit(ErrorBookmarkState());
+      });
+    } else {
+      print("Document not found");
+    }
+  }
+
   // News Getters
   var globalArticles;
   void getGlobalArticles() {
@@ -183,7 +247,6 @@ class AppCubit extends Cubit<AppState> {
       var responseData = value.data as Map<String, dynamic>;
       ArticleModel articleModel = ArticleModel.fromJson(responseData);
       globalArticles = articleModel.articles;
-
       emit(SuccessGetArticlesState());
     }).catchError((error) {
       print(error.toString());
@@ -205,6 +268,28 @@ class AppCubit extends Cubit<AppState> {
       var responseData = value.data as Map<String, dynamic>;
       ArticleModel articleModel = ArticleModel.fromJson(responseData);
       feedArticles = articleModel.articles;
+      emit(SuccessGetArticlesState());
+    }).catchError((error) {
+      print(error.toString());
+      emit(ErrorGetArticlesState());
+    });
+  }
+
+  var globalCard;
+  var worldFocus = 'Israel';
+  void getGlobalCardArticle() {
+    emit(LoadingGetArticlesState());
+    DioHelper.getData(
+      url: 'v2/everything',
+      query: {
+        'q': worldFocus,
+        'language': 'en',
+        'apiKey': apiKey,
+      },
+    ).then((value) {
+      var responseData = value.data as Map<String, dynamic>;
+      ArticleModel articleModel = ArticleModel.fromJson(responseData);
+      globalCard = articleModel.articles![0];
       emit(SuccessGetArticlesState());
     }).catchError((error) {
       print(error.toString());

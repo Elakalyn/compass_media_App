@@ -38,3 +38,10 @@ class LoadingSearchState extends AppState {}
 class ErrorSearchState extends AppState {}
 
 class SuccessSearchState extends AppState {}
+
+// SEARCH STATES
+class AddBookmarkState extends AppState {}
+
+class RemoveBookmarkState extends AppState {}
+
+class ErrorBookmarkState extends AppState {}

@@ -112,7 +112,7 @@ class UserProfileCubit extends Cubit<UserProfileCubitState> {
         'sources': selectedSources,
       });
       await UserProfileCubit.get(context).getProfile();
-      navigateToAndFinish(context, Host());
+      navigateToAndFinish(context, Layout());
       emit(SetProfileSuccessState());
     } catch (e) {
       debugPrint(e.toString());
@@ -304,7 +304,22 @@ class UserProfileCubit extends Cubit<UserProfileCubitState> {
 
   void changeProfileGrid(v) {
     displayTopics = v;
-
+    topics = [
+      'politics',
+      'sports',
+      'space',
+      'technology',
+      'economy',
+      'business',
+    ];
+    sources = [
+      'BBC',
+      'CNN',
+      'reuters',
+      'google News',
+      'fox News',
+      'NY Times',
+    ];
     emit(ChangeProfileGridState());
   }
 }

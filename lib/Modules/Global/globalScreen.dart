@@ -12,9 +12,7 @@ class GlobalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         var cubit = AppCubit.get(context);
 
@@ -28,7 +26,7 @@ class GlobalScreen extends StatelessWidget {
                     width: 65,
                     height: 65,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   GestureDetector(
                     onTap: () {
                       navigateTo(context, SearchScreen());
@@ -85,7 +83,8 @@ class GlobalScreen extends StatelessWidget {
                 20.h,
                 Row(
                   children: [
-                    const GlobalCard(),
+                    if (cubit.globalCard != null) const GlobalCard(),
+                    if (cubit.globalCard == null) const CircularProgressIndicator()
                   ],
                 ),
                 40.h,
@@ -105,16 +104,16 @@ class GlobalScreen extends StatelessWidget {
                   ListView.separated(
                     separatorBuilder: (context, index) => 20.h,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: cubit.globalArticles.length,
                     itemBuilder: (context, index) {
                       return NewsCard(cubit.globalArticles[index], context);
                     },
                   ),
                 if (state is LoadingGetArticlesState)
-                  Center(child: CircularProgressIndicator()),
+                  const Center(child: CircularProgressIndicator()),
                 if (state is ErrorGetArticlesState)
-                  Text(
+                  const Text(
                       'Failed to get articles, please check your internet connection.'),
               ]),
             ),

@@ -1,3 +1,4 @@
+import 'package:compass_app/Modules/Bookmarks/bookmarks.dart';
 import 'package:compass_app/Shared/cubit/app_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,9 +11,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         var cubit = AppCubit.get(context);
 
@@ -25,6 +24,17 @@ class HomeScreen extends StatelessWidget {
                 height: 65,
               ),
             ),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: Icon(Icons.bookmarks),
+                  onPressed: () {
+                    navigateTo(context, BookmarksScreen());
+                  },
+                ),
+              )
+            ],
           ),
           body: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -34,7 +44,7 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   20.h,
-                  Row(
+                  const Row(
                     children: [
                       Text(
                         'Your Feed',
@@ -53,17 +63,17 @@ class HomeScreen extends StatelessWidget {
                     ListView.separated(
                       separatorBuilder: (context, index) => 20.h,
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemCount: cubit.feedArticles.length,
                       itemBuilder: (context, index) {
                         return NewsCard(cubit.feedArticles[index], context);
                       },
                     ),
                   if (state is LoadingGetArticlesState)
-                  Center(child: CircularProgressIndicator()),
+                    const Center(child: CircularProgressIndicator()),
                   if (state is ErrorGetArticlesState)
-                  Text('Failed to get articles, please check your internet connection.'),
-                    
+                    const Text(
+                        'Failed to get articles, please check your internet connection.'),
                 ],
               ),
             ),

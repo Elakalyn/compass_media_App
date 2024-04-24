@@ -28,7 +28,7 @@ class ArticleModel {
 }
 
 class Articles {
-  Source? source;
+  ArticleSource? source;
   String? author;
   String? title;
   String? description;
@@ -49,7 +49,7 @@ class Articles {
 
   Articles.fromJson(Map<String, dynamic> json) {
     source =
-        json['source'] != null ? Source.fromJson(json['source']) : null;
+        json['source'] != null ? ArticleSource.fromJson(json['source']) : null;
     author = json['author'];
     title = json['title'];
     description = json['description'];
@@ -75,13 +75,13 @@ class Articles {
   }
 }
 
-class Source {
+class ArticleSource {
   String? id;
   String? name;
 
-  Source({this.id, this.name});
+  ArticleSource({this.id, this.name});
 
-  Source.fromJson(Map<String, dynamic> json) {
+  ArticleSource.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
   }

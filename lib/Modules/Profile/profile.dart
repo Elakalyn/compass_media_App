@@ -22,7 +22,24 @@ class ProfileScreen extends StatelessWidget {
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
-                  navigateToAndFinish(context, Host());
+                  navigateToAndFinish(context, Layout());
+
+                  cubit.topics = [
+                    'politics',
+                    'sports',
+                    'space',
+                    'technology',
+                    'economy',
+                    'business',
+                  ];
+                  cubit.sources = [
+                    'BBC',
+                    'CNN',
+                    'reuters',
+                    'google News',
+                    'fox News',
+                    'NY Times',
+                  ];
                 },
               ),
               centerTitle: true,
@@ -151,14 +168,37 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     20.h,
-                    if (state is! GetProfileLoadingState) Grid(),
+                    if (state is! GetProfileLoadingState)
+                      GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: cubit.displayTopics
+                            ? cubit.selectedTopics.length
+                            : cubit.selectedSources.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: .7,
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10.0,
+                          crossAxisSpacing: 10.0,
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return elementCard(
+                            edit_mode: false,
+
+                            type: cubit.displayTopics ? 'topics' : 'sources',
+                            name: cubit.displayTopics
+                                ? cubit.selectedTopics[index]
+                                : cubit.selectedSources[index],
+                          );
+                        },
+                      ),
                     if (state is GetProfileLoadingState)
                       CircularProgressIndicator(),
                     40.h,
-                    const Align(
+                    Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Other Topics',
+                        cubit.displayTopics ? 'Other Topics' : 'Other Sources',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 26,
@@ -168,8 +208,33 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     20.h,
                     if (state is! GetProfileLoadingState)
-                      Grid(
-                        existing: true,
+                      GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: cubit.displayTopics
+                            ? cubit.topics.length - cubit.selectedTopics.length
+                            : cubit.sources.length -
+                                cubit.selectedSources.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: .7,
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10.0,
+                          crossAxisSpacing: 10.0,
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          cubit.topics.removeWhere((element) =>
+                              cubit.selectedTopics.contains(element));
+                          cubit.sources.removeWhere((element) =>
+                              cubit.selectedSources.contains(element));
+                      
+                          return elementCard(
+                            edit_mode: false,
+                            type: cubit.displayTopics ? 'topics' : 'sources',
+                            name: cubit.displayTopics
+                                ? cubit.topics[index]
+                                : cubit.sources[index],
+                          );
+                        },
                       ),
                     if (state is GetProfileLoadingState)
                       CircularProgressIndicator(),
@@ -194,143 +259,27 @@ class ProfileScreen extends StatelessWidget {
             ),
           );
         } else {
-          return CircularProgressIndicator();
-        }
-      },
-    );
-  }
-}
-
-class Grid extends StatelessWidget {
-  Grid({this.existing});
-  final existing;
-  @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<UserProfileCubit, UserProfileCubitState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
-      builder: (context, state) {
-        var cubit = UserProfileCubit.get(context);
-        List<dynamic> sources = [];
-        List<dynamic> topics = [];
-
-        var names;
-        if (existing == null) {
-          topics = cubit.selectedTopics;
-          sources = cubit.selectedSources;
-          names = cubit.displayTopics ? topics : sources;
-        } else {
-          sources = ['bbc-news', 'reuters', 'cnn', 'google-news'];
-          sources.removeWhere(
-              (element) => cubit.selectedSources.contains(element));
-          topics = [
-            'Politics',
-            'Business',
-            'Economy',
-            'Space',
-            'Technology',
-            'Sports'
-          ];
-          topics
-              .removeWhere((element) => cubit.selectedTopics.contains(element));
-          names = cubit.displayTopics ? topics : sources;
-        }
-        return GridView.builder(
-          itemCount: names.length,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 10.0,
-            crossAxisSpacing: 10.0,
-          ),
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              width: 152.0,
-              height: 197.0,
-              decoration: BoxDecoration(
-                color: const Color(0xFF132649),
-                borderRadius: BorderRadius.circular(25.0),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 4,
-                    offset: Offset(0, 4),
-                    spreadRadius: 0,
-                  )
+          return const Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text('Getting profile...'),
                 ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 111,
-                      child: findAssetImage(
-                        name: names[index],
-                      ),
-                    ),
-                    const Spacer(),
-                    Text(
-                      names[index],
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
+            ),
+          );
+        }
       },
     );
-  }
-}
-
-class findAssetImage extends StatelessWidget {
-  findAssetImage({required this.name});
-  final name;
-  @override
-  Widget build(BuildContext context) {
-    switch (name) {
-      // Topics
-      case 'Politics':
-        return Image.asset('assets/images/politics.png');
-      case 'Sports':
-        return Image.asset('assets/images/sports.png');
-      case 'Space':
-        return Image.asset('assets/images/space.png');
-      case 'Technology':
-        return Image.asset('assets/images/technology.png');
-      case 'Business':
-        return Image.asset('assets/images/business.png');
-      case 'Economy':
-        return Image.asset('assets/images/economy.png');
-      // Sources
-      case 'bbc':
-        return Image.asset('assets/sources/BBC.png');
-      case 'cnn':
-        return Image.asset('assets/sources/CNN.png');
-      case 'foxnews':
-        return Image.asset('assets/sources/foxNews.png');
-      case 'googlenews':
-        return Image.asset('assets/sources/GoogleNews.png');
-      case 'nytimes':
-        return Image.asset('assets/sources/NYTimes.png');
-      case 'reuters':
-        return Image.asset('assets/sources/Reuters.png');
-    }
-    return Text('null');
   }
 }
 
 class tabBar extends StatelessWidget {
-  tabBar();
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserProfileCubit, UserProfileCubitState>(

@@ -62,6 +62,7 @@ class TopicSelection extends StatelessWidget {
                           ),
                           itemBuilder: (BuildContext context, int index) {
                             return elementCard(
+                              edit_mode: true,
                               type: 'topics',
                               name: cubit.topics[index],
                             );
@@ -112,121 +113,6 @@ class TopicSelection extends StatelessWidget {
         );
       },
     );
-  }
-}
-
-class elementCard extends StatelessWidget {
-  const elementCard({
-    super.key,
-    required this.name,
-    required this.type,
-  });
-  final String name;
-  final String type;
-  @override
-  Widget build(BuildContext context) {
-    var cubit = UserProfileCubit.get(context);
-    if (type == 'topics') {
-      return BlocConsumer<AppCubit, AppState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
-        builder: (context, state) {
-          return GestureDetector(
-            onTap: () {
-              cubit.SelectTopic(name);
-            },
-            child: Container(
-                width: 152.0,
-                height: 197.0,
-                decoration: BoxDecoration(
-                  color: HexColor('132649'),
-                  border: cubit.selectedTopics.contains(name)
-                      ? Border.all(
-                          color: Color.fromARGB(255, 65, 169, 255), width: 1)
-                      : null,
-                  borderRadius: BorderRadius.circular(25.0),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x3F000000),
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                      spreadRadius: 0,
-                    )
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: cubit.imageBuilder(name),
-                    ),
-                    const Spacer(),
-                    Text(
-                      name.capitalize(),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const Spacer(),
-                  ],
-                )),
-          );
-        },
-      );
-    } else {
-      return BlocConsumer<AppCubit, AppState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
-        builder: (context, state) {
-          return GestureDetector(
-            onTap: () {
-              cubit.SelectSource(name);
-            },
-            child: Container(
-                width: 152.0,
-                height: 197.0,
-                decoration: BoxDecoration(
-                  color: HexColor('132649'),
-                  border: cubit.selectedSources.contains(name)
-                      ? Border.all(
-                          color: Color.fromARGB(255, 65, 169, 255), width: 1)
-                      : null,
-                  borderRadius: BorderRadius.circular(25.0),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x3F000000),
-                      blurRadius: 4,
-                      offset: Offset(0, 4),
-                      spreadRadius: 0,
-                    )
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: cubit.imageBuilder(name),
-                    ),
-                    const Spacer(),
-                    Text(
-                      name.capitalize(),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const Spacer(),
-                  ],
-                )),
-          );
-        },
-      );
-    }
   }
 }
 
@@ -292,6 +178,7 @@ class SourceSelection extends StatelessWidget {
                         ),
                         itemBuilder: (BuildContext context, int index) {
                           return elementCard(
+                            edit_mode: true,
                             type: 'sources',
                             name: cubit.sources[index],
                           );
