@@ -16,6 +16,7 @@ class GlobalScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = AppCubit.get(context);
 
+        cubit.globalLazyLoading();
         return Scaffold(
           appBar: AppBar(
             title: SafeArea(
@@ -63,6 +64,8 @@ class GlobalScreen extends StatelessWidget {
           body: Padding(
             padding: const EdgeInsets.all(20.0),
             child: SingleChildScrollView(
+              controller: cubit.globalScrollController,
+
               physics: const BouncingScrollPhysics(),
               child: Column(children: [
                 10.h,
@@ -101,7 +104,7 @@ class GlobalScreen extends StatelessWidget {
                   ),
                 ),
                 40.h,
-                if (state is SuccessGetArticlesState)
+                if (cubit.globalArticles.isNotEmpty)
                   ListView.separated(
                     separatorBuilder: (context, index) => 20.h,
                     shrinkWrap: true,

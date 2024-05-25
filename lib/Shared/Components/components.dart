@@ -179,6 +179,7 @@ Widget? NewsCard(Articles article, BuildContext context, var category) {
               image: article.urlToImage,
               name: article.title,
               content: article.content,
+              category: category,
             ));
       },
       child: Container(

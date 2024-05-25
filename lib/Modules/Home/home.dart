@@ -18,6 +18,7 @@ class HomeScreen extends StatelessWidget {
       builder: (context, state) {
         var cubit = AppCubit.get(context);
 
+        cubit.homeLazyLoading();
         return Scaffold(
           appBar: AppBar(
             title: SafeArea(
@@ -42,6 +43,7 @@ class HomeScreen extends StatelessWidget {
           body: Padding(
             padding: const EdgeInsets.all(20.0),
             child: SingleChildScrollView(
+              controller: cubit.homeScrollController,
               physics: const BouncingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,12 +64,12 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   24.h,
-                  if (state is SuccessGetArticlesState)
+                  if (cubit.feedArticles.isNotEmpty)
                     ListView.separated(
                       separatorBuilder: (context, index) => 20.h,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: cubit.feedArticles.length,
+                      itemCount: cubit.loadedHomeArticles, //cubit.feedArticles.length,
                       itemBuilder: (context, index) {
                         var category = cubit.categorizeArticle(
                             cubit.feedArticles[index].title!.toLowerCase());

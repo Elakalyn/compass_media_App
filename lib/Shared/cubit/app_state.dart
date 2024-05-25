@@ -32,6 +32,8 @@ class ErrorGetArticlesState extends AppState {}
 
 class SuccessGetArticlesState extends AppState {}
 
+class LoadMoreArticlesState extends AppState {}
+
 // SEARCH STATES
 class LoadingSearchState extends AppState {}
 

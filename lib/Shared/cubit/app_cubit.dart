@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:compass_app/Modules/Global/globalScreen.dart';
 import 'package:compass_app/Modules/Home/home.dart';
 import 'package:compass_app/Network/Remote/api_handling.dart';
@@ -175,12 +177,14 @@ class AppCubit extends Cubit<AppState> {
     required var urlToImage,
     required var source,
     required var content,
+    required var category,
   }) {
     Map<String, dynamic> articleData = {
       'title': title,
       'urlToImage': urlToImage,
       'source': source,
       'content': content,
+      'category': category,
     };
     FirebaseFirestore.instance
         .collection('users')
@@ -188,7 +192,7 @@ class AppCubit extends Cubit<AppState> {
         .collection('bookmarks')
         .add(articleData)
         .then((value) {
-      emit(RemoveBookmarkState());
+      emit(AddBookmarkState());
     });
   }
 
@@ -234,7 +238,7 @@ class AppCubit extends Cubit<AppState> {
   }
 
   // News Getters
-  var globalArticles;
+  List<Articles> globalArticles = [];
   void getGlobalArticles() {
     emit(LoadingGetArticlesState());
     DioHelper.getData(
@@ -246,7 +250,7 @@ class AppCubit extends Cubit<AppState> {
     ).then((value) {
       var responseData = value.data as Map<String, dynamic>;
       ArticleModel articleModel = ArticleModel.fromJson(responseData);
-      globalArticles = articleModel.articles;
+      globalArticles = articleModel.articles!;
       emit(SuccessGetArticlesState());
     }).catchError((error) {
       print(error.toString());
@@ -267,7 +271,7 @@ class AppCubit extends Cubit<AppState> {
       var responseData = value.data as Map<String, dynamic>;
       ArticleModel articleModel = ArticleModel.fromJson(responseData);
       feedArticles = articleModel.articles!;
-    
+
       emit(SuccessGetArticlesState());
     }).catchError((error) {
       print(error.toString());
@@ -316,4 +320,53 @@ class AppCubit extends Cubit<AppState> {
     }
     return 'uncategorized'.toUpperCase();
   }
+
+  var loadedHomeArticles = 15;
+  bool homeDebounce = false;
+  var homeScrollController = ScrollController();
+  void homeLazyLoading() {
+    if (homeDebounce) {
+      return;
+    }
+    homeDebounce = true;
+
+    homeScrollController.addListener(() async {
+      var maxScroll = homeScrollController.position.maxScrollExtent;
+      if (homeScrollController.offset == maxScroll) {
+        print('loading more articles.');
+        loadedHomeArticles = loadedHomeArticles + 15;
+        if (loadedHomeArticles > feedArticles.length) {
+          loadedHomeArticles = feedArticles.length;
+        }
+        emit(LoadingGetArticlesState());
+        await Future.delayed(Duration(seconds: 1));
+        emit(LoadMoreArticlesState());
+      }
+    });
+  }
+
+  var loadedGlobalArticles = 15;
+  bool globalDebounce = false;
+  var globalScrollController = ScrollController();
+  void globalLazyLoading() {
+    if (globalDebounce) {
+      return;
+    }
+    globalDebounce = true;
+
+    globalScrollController.addListener(() async {
+      var maxScroll = globalScrollController.position.maxScrollExtent;
+      if (globalScrollController.offset == maxScroll) {
+        print('loading more articles.');
+        loadedGlobalArticles = loadedGlobalArticles + 15;
+        if (loadedGlobalArticles > globalArticles.length) {
+          loadedGlobalArticles = globalArticles.length;
+        }
+        emit(LoadingGetArticlesState());
+        await Future.delayed(Duration(seconds: 1));
+        emit(LoadMoreArticlesState());
+      }
+    });
+  }
+
 }

@@ -9,16 +9,19 @@ import 'package:speed_up_flutter/speed_up_flutter.dart';
 import '../../Shared/Components/components.dart';
 
 class ArticleViewScreen extends StatelessWidget {
-  const ArticleViewScreen(
-      {super.key,
-      required this.name,
-      required this.image,
-      required this.source,
-      required this.content});
+  const ArticleViewScreen({
+    super.key,
+    required this.name,
+    required this.image,
+    required this.source,
+    required this.content,
+    required this.category,
+  });
   final name;
   final image;
   final content;
   final source;
+  final category;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppState>(
@@ -56,10 +59,12 @@ class ArticleViewScreen extends StatelessWidget {
                             AppCubit.get(context).removeBookmark(title: name);
                           } else {
                             AppCubit.get(context).bookmark(
-                                title: name,
-                                urlToImage: image,
-                                source: source,
-                                content: content);
+                              title: name,
+                              urlToImage: image,
+                              source: source,
+                              content: content,
+                              category: category,
+                            );
                           }
                         },
                       ),
