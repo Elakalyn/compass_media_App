@@ -87,7 +87,8 @@ class BookmarksScreen extends StatelessWidget {
                               content: document['content'],
                               source: ArticleSource(name: document['source']),
                               urlToImage: document['urlToImage'],
-                            ), context);
+                            ), context, document['category']
+                            );
                           },
                         );
                       },

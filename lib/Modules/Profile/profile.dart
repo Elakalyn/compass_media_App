@@ -89,7 +89,7 @@ class ProfileScreen extends StatelessWidget {
                             padding: EdgeInsets.symmetric(vertical: 20.0),
                             child: Column(
                               children: [
-                                Text(interuser.get('name'),
+                                Text(interuser?.get('name'),
                                     style: TextStyle(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold,

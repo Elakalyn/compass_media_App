@@ -87,11 +87,10 @@ class UserProfileCubit extends Cubit<UserProfileCubitState> {
   Future<void> getProfile() async {
     print('GETTING PROFILE');
     emit(GetProfileLoadingState());
-    // Access the specific document in the "users" collection
+
     DocumentSnapshot snapshot =
         await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
-    // Check if the document exists
     if (snapshot.exists) {
       selectedSources = snapshot.get('sources');
       selectedTopics = snapshot.get('topics');

@@ -43,11 +43,11 @@ class AppCubit extends Cubit<AppState> {
   ];
   int indexs = 0;
 
-  void changeIndex(index) {
+  void changeIndex(index, context) {
     indexs = index;
     switch (index) {
       case 0:
-        getFeedArticles();
+        getFeedArticles(context);
         break;
       case 1:
         getGlobalArticles();
@@ -254,20 +254,20 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
-  var feedArticles;
-  void getFeedArticles() {
+  List<Articles> feedArticles = [];
+  Future<void> getFeedArticles(context) async {
     emit(LoadingGetArticlesState());
     DioHelper.getData(
       url: 'v2/top-headlines',
       query: {
-        'category': 'business',
         'language': 'en',
         'apiKey': apiKey,
       },
     ).then((value) {
       var responseData = value.data as Map<String, dynamic>;
       ArticleModel articleModel = ArticleModel.fromJson(responseData);
-      feedArticles = articleModel.articles;
+      feedArticles = articleModel.articles!;
+    
       emit(SuccessGetArticlesState());
     }).catchError((error) {
       print(error.toString());
@@ -295,5 +295,25 @@ class AppCubit extends Cubit<AppState> {
       print(error.toString());
       emit(ErrorGetArticlesState());
     });
+  }
+
+  String categorizeArticle(String title) {
+    for (String keyword in technologyKeywords) {
+      if (title.contains(keyword)) {
+        return 'technology'.toUpperCase();
+      }
+    }
+    for (String keyword in politicalKeywords) {
+      if (title.contains(keyword)) {
+        return 'politics'.toUpperCase();
+      }
+    }
+
+    for (String keyword in businessKeywords) {
+      if (title.contains(keyword)) {
+        return 'business'.toUpperCase();
+      }
+    }
+    return 'uncategorized'.toUpperCase();
   }
 }

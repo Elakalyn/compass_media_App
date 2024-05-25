@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import '../../Shared/cubit/app_cubit.dart';
 
-
 class Layout extends StatelessWidget {
   const Layout({super.key});
 
@@ -40,7 +39,7 @@ class Layout extends StatelessWidget {
               ],
               selectedIndex: AppCubit.get(context).indexs,
               onDestinationSelected: (index) {
-                AppCubit.get(context).changeIndex(index);
+                AppCubit.get(context).changeIndex(index, context);
               },
             ),
           ),
@@ -50,7 +49,6 @@ class Layout extends StatelessWidget {
   }
 }
 
-// BottomNavigationBar(
 //               selectedItemColor: Colors.black,
 //               currentIndex: AppCubit.get(context).indexs,
 //               type: BottomNavigationBarType.fixed,

@@ -168,7 +168,7 @@ class GlobalCard extends StatelessWidget {
   }
 }
 
-Widget? NewsCard(Articles article, BuildContext context) {
+Widget? NewsCard(Articles article, BuildContext context, var category) {
   if (article.urlToImage != null)
     return GestureDetector(
       onTap: () {
@@ -268,12 +268,15 @@ Widget? NewsCard(Articles article, BuildContext context) {
                                       'assets/images/politicsIcon.png')),
                             ),
                             8.w,
-                            Center(
-                              child: Text(
-                                'POLITICS',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  overflow: TextOverflow.ellipsis,
+                                  category.toString().toUpperCase(),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                             )
@@ -301,7 +304,7 @@ Widget? NewsCard(Articles article, BuildContext context) {
       ),
     );
 
-  if (article.urlToImage == null) return null;
+  if (article.urlToImage == null) return 1.w;
 }
 
 Future<void> navigateToAndFinish(context, widget) async =>

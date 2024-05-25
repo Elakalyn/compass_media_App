@@ -1,5 +1,6 @@
 import 'package:compass_app/Modules/Bookmarks/bookmarks.dart';
 import 'package:compass_app/Shared/cubit/app_cubit.dart';
+import 'package:compass_app/Shared/cubit/user_profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
@@ -11,7 +12,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        print(state);
+      },
       builder: (context, state) {
         var cubit = AppCubit.get(context);
 
@@ -66,7 +69,11 @@ class HomeScreen extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: cubit.feedArticles.length,
                       itemBuilder: (context, index) {
-                        return NewsCard(cubit.feedArticles[index], context);
+                        var category = cubit.categorizeArticle(
+                            cubit.feedArticles[index].title!.toLowerCase());
+
+                        return NewsCard(
+                            cubit.feedArticles[index], context, category);
                       },
                     ),
                   if (state is LoadingGetArticlesState)

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'Modules/Authentication/login.dart';
 import 'Modules/Layout/layout.dart';
+import 'Modules/Splash Screen/splash_screen.dart';
 import 'Network/Local/cacheHelper.dart';
 import 'Network/Remote/api_handling.dart';
 import 'Shared/Constants/constants.dart';
@@ -22,13 +23,14 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
+Widget? home;
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    Widget home;
     if (uid != null) {
       home = const Layout();
     } else {
@@ -37,10 +39,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AppCubit()..getFeedArticles(),
+          create: (context) => UserProfileCubit()..getProfile(),
         ),
         BlocProvider(
-          create: (context) => UserProfileCubit()..getProfile(),
+          create: (context) => AppCubit(),
         ),
       ],
       child: BlocConsumer<AppCubit, AppState>(
@@ -76,7 +78,7 @@ class MyApp extends StatelessWidget {
                   ),
                   toolbarHeight: 88),
             ),
-            home: home,
+            home: SplashScreen(),
           );
         },
       ),

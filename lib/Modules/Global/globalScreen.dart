@@ -84,7 +84,8 @@ class GlobalScreen extends StatelessWidget {
                 Row(
                   children: [
                     if (cubit.globalCard != null) const GlobalCard(),
-                    if (cubit.globalCard == null) const CircularProgressIndicator()
+                    if (cubit.globalCard == null)
+                      const CircularProgressIndicator()
                   ],
                 ),
                 40.h,
@@ -107,7 +108,11 @@ class GlobalScreen extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: cubit.globalArticles.length,
                     itemBuilder: (context, index) {
-                      return NewsCard(cubit.globalArticles[index], context);
+                      return NewsCard(
+                          cubit.globalArticles[index],
+                          context,
+                          cubit.categorizeArticle(
+                              cubit.feedArticles[index].title!.toLowerCase()));
                     },
                   ),
                 if (state is LoadingGetArticlesState)
