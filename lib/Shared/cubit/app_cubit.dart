@@ -369,4 +369,54 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
+  var loadedSearchArticles = 15;
+  bool searchDebounce = false;
+  var searchScrollController = ScrollController();
+  void searchLazyLoading() {
+    if (searchDebounce) {
+      return;
+    }
+    searchDebounce = true;
+
+    searchScrollController.addListener(() async {
+      var maxScroll = searchScrollController.position.maxScrollExtent;
+      if (searchScrollController.offset == maxScroll) {
+        print('loading more articles.');
+        loadedSearchArticles = loadedSearchArticles + 15;
+        if (loadedSearchArticles > searchResults.length) {
+          loadedSearchArticles = searchResults.length;
+        }
+        emit(LoadingGetArticlesState());
+        await Future.delayed(Duration(seconds: 1));
+        emit(LoadMoreArticlesState());
+      }
+    });
+  }
+
+  List<Articles> searchResults = [];
+  void search(query) {
+    if (query.toString().isNotEmpty) {
+      searchResults.clear();
+      emit(LoadingSearchState());
+      DioHelper.getData(
+        url: 'v2/everything',
+        query: {
+          'q': query,
+          'language': 'en',
+          'apiKey': apiKey,
+        },
+      ).then((value) {
+        var responseData = value.data as Map<String, dynamic>;
+        ArticleModel articleModel = ArticleModel.fromJson(responseData);
+        searchResults = articleModel.articles!;
+        emit(SuccessSearchState());
+      }).catchError((error) {
+        print(error.toString());
+        emit(ErrorSearchState());
+      });
+    } else {
+      searchResults.clear();
+      emit(SuccessSearchState());
+    }
+  }
 }

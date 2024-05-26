@@ -14,7 +14,7 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = AppCubit.get(context);
-
+    cubit.searchLazyLoading();
     return BlocConsumer<AppCubit, AppState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -38,6 +38,8 @@ class SearchScreen extends StatelessWidget {
             ),
           ),
           body: SingleChildScrollView(
+            controller: cubit.searchScrollController,
+            physics: const BouncingScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -58,15 +60,25 @@ class SearchScreen extends StatelessWidget {
                   20.h,
                   SearchBar(),
                   40.h,
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: 0,
-                    separatorBuilder: (BuildContext context, int index) {
-                      return 20.h;
-                    },
-                    itemBuilder: (BuildContext context, int index) {},
-                  ),
+                  if (cubit.searchResults.isNotEmpty)
+                    ListView.separated(
+                      separatorBuilder: (context, index) => 20.h,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: cubit.loadedSearchArticles,
+                      itemBuilder: (context, index) {
+                        var category = cubit.categorizeArticle(
+                            cubit.searchResults[index].title!.toLowerCase());
+
+                        return NewsCard(
+                            cubit.searchResults[index], context, category);
+                      },
+                    ),
+                  if (state is LoadingSearchState)
+                    const Center(child: CircularProgressIndicator()),
+                  if (state is ErrorSearchState)
+                    const Text(
+                        'Failed to get articles, please check your internet connection.'),
                 ],
               ),
             ),
@@ -116,6 +128,7 @@ class suggestedSearchWidget extends StatelessWidget {
 class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var cubit = AppCubit.get(context);
     return Container(
       decoration: BoxDecoration(
         border: Border.all(color: Colors.white, width: 1),
@@ -123,6 +136,9 @@ class SearchBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(35.0),
       ),
       child: TextField(
+        onSubmitted: (v) {
+           cubit.search(v);
+        },
         style: TextStyle(
           fontSize: 16.0,
           color: Colors.white,

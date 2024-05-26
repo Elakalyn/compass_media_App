@@ -159,4 +159,6 @@ List<String> technologyKeywords = [
   'Tim Cook',
   'Jeff Bezos',
   'Mark Zuckerberg',
+  'Iphone',
+  'Android',
 ];
