@@ -47,15 +47,6 @@ class AppCubit extends Cubit<AppState> {
 
   void changeIndex(index, context) {
     indexs = index;
-    switch (index) {
-      case 0:
-        getFeedArticles(context);
-        break;
-      case 1:
-        getGlobalArticles();
-        getGlobalCardArticle();
-        break;
-    }
     emit(BNBChangeState());
   }
 
@@ -239,7 +230,7 @@ class AppCubit extends Cubit<AppState> {
 
   // News Getters
   List<Articles> globalArticles = [];
-  void getGlobalArticles() {
+  Future<void> getGlobalArticles() async {
     emit(LoadingGetArticlesState());
     DioHelper.getData(
       url: 'v2/top-headlines',
@@ -259,7 +250,7 @@ class AppCubit extends Cubit<AppState> {
   }
 
   List<Articles> feedArticles = [];
-  Future<void> getFeedArticles(context) async {
+  Future<void> getFeedArticles() async {
     emit(LoadingGetArticlesState());
     DioHelper.getData(
       url: 'v2/top-headlines',
@@ -281,7 +272,7 @@ class AppCubit extends Cubit<AppState> {
 
   var globalCard;
   var worldFocus = 'Israel';
-  void getGlobalCardArticle() {
+  Future<void> getGlobalCardArticle() async {
     emit(LoadingGetArticlesState());
     DioHelper.getData(
       url: 'v2/everything',
@@ -319,6 +310,15 @@ class AppCubit extends Cubit<AppState> {
       }
     }
     return 'uncategorized'.toUpperCase();
+  }
+
+  Future<void> refresh() async {
+    globalArticles.clear();
+    feedArticles.clear();
+    globalCard = null;
+    getFeedArticles();
+    getGlobalArticles();
+    getGlobalCardArticle();
   }
 
   var loadedHomeArticles = 15;

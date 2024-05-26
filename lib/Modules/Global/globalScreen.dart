@@ -63,67 +63,70 @@ class GlobalScreen extends StatelessWidget {
           ),
           body: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: SingleChildScrollView(
-              controller: cubit.globalScrollController,
-
-              physics: const BouncingScrollPhysics(),
-              child: Column(children: [
-                10.h,
-                const Row(
-                  children: [
-                    Text(
-                      'Global',
+            child: RefreshIndicator(
+              onRefresh: () => cubit.refresh(),
+              child: SingleChildScrollView(
+                controller: cubit.globalScrollController,
+                physics: const BouncingScrollPhysics(),
+                child: Column(children: [
+                  10.h,
+                  const Row(
+                    children: [
+                      Text(
+                        'Global',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 33,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Spacer(),
+                      profileWidget(),
+                    ],
+                  ),
+                  20.h,
+                  Row(
+                    children: [
+                      if (cubit.globalCard != null) const GlobalCard(),
+                      if (cubit.globalCard == null)
+                        const CircularProgressIndicator()
+                    ],
+                  ),
+                  40.h,
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Breaking',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 33,
+                        fontSize: 26,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    Spacer(),
-                    profileWidget(),
-                  ],
-                ),
-                20.h,
-                Row(
-                  children: [
-                    if (cubit.globalCard != null) const GlobalCard(),
-                    if (cubit.globalCard == null)
-                      const CircularProgressIndicator()
-                  ],
-                ),
-                40.h,
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Breaking',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 26,
-                      fontWeight: FontWeight.w600,
+                  ),
+                  40.h,
+                  if (cubit.globalArticles.isNotEmpty)
+                    ListView.separated(
+                      separatorBuilder: (context, index) => 20.h,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: cubit.globalArticles.length,
+                      itemBuilder: (context, index) {
+                        return NewsCard(
+                            cubit.globalArticles[index],
+                            context,
+                            cubit.categorizeArticle(cubit
+                                .feedArticles[index].title!
+                                .toLowerCase()));
+                      },
                     ),
-                  ),
-                ),
-                40.h,
-                if (cubit.globalArticles.isNotEmpty)
-                  ListView.separated(
-                    separatorBuilder: (context, index) => 20.h,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: cubit.globalArticles.length,
-                    itemBuilder: (context, index) {
-                      return NewsCard(
-                          cubit.globalArticles[index],
-                          context,
-                          cubit.categorizeArticle(
-                              cubit.feedArticles[index].title!.toLowerCase()));
-                    },
-                  ),
-                if (state is LoadingGetArticlesState)
-                  const Center(child: CircularProgressIndicator()),
-                if (state is ErrorGetArticlesState)
-                  const Text(
-                      'Failed to get articles, please check your internet connection.'),
-              ]),
+                  if (state is LoadingGetArticlesState)
+                    const Center(child: CircularProgressIndicator()),
+                  if (state is ErrorGetArticlesState)
+                    const Text(
+                        'Failed to get articles, please check your internet connection.'),
+                ]),
+              ),
             ),
           ),
         );

@@ -42,48 +42,52 @@ class HomeScreen extends StatelessWidget {
           ),
           body: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: SingleChildScrollView(
-              controller: cubit.homeScrollController,
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  20.h,
-                  const Row(
-                    children: [
-                      Text(
-                        'Your Feed',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 34,
-                          fontWeight: FontWeight.w600,
+            child: RefreshIndicator(
+              onRefresh: () => cubit.refresh(),
+              child: SingleChildScrollView(
+                controller: cubit.homeScrollController,
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    20.h,
+                    const Row(
+                      children: [
+                        Text(
+                          'Your Feed',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 34,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                      Spacer(),
-                      profileWidget()
-                    ],
-                  ),
-                  24.h,
-                  if (cubit.feedArticles.isNotEmpty)
-                    ListView.separated(
-                      separatorBuilder: (context, index) => 20.h,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: cubit.loadedHomeArticles, //cubit.feedArticles.length,
-                      itemBuilder: (context, index) {
-                        var category = cubit.categorizeArticle(
-                            cubit.feedArticles[index].title!.toLowerCase());
-
-                        return NewsCard(
-                            cubit.feedArticles[index], context, category);
-                      },
+                        Spacer(),
+                        profileWidget()
+                      ],
                     ),
-                  if (state is LoadingGetArticlesState)
-                    const Center(child: CircularProgressIndicator()),
-                  if (state is ErrorGetArticlesState)
-                    const Text(
-                        'Failed to get articles, please check your internet connection.'),
-                ],
+                    24.h,
+                    if (cubit.feedArticles.isNotEmpty)
+                      ListView.separated(
+                        separatorBuilder: (context, index) => 20.h,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: cubit
+                            .loadedHomeArticles, //cubit.feedArticles.length,
+                        itemBuilder: (context, index) {
+                          var category = cubit.categorizeArticle(
+                              cubit.feedArticles[index].title!.toLowerCase());
+
+                          return NewsCard(
+                              cubit.feedArticles[index], context, category);
+                        },
+                      ),
+                    if (state is LoadingGetArticlesState)
+                      const Center(child: CircularProgressIndicator()),
+                    if (state is ErrorGetArticlesState)
+                      const Text(
+                          'Failed to get articles, please check your internet connection.'),
+                  ],
+                ),
               ),
             ),
           ),

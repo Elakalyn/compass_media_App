@@ -15,7 +15,7 @@ class SplashScreen extends StatelessWidget {
     return BlocConsumer<UserProfileCubit, UserProfileCubitState>(
       listener: (context, state) {
         if (state is GetProfileSuccessState) {
-            AppCubit.get(context).getFeedArticles(context);
+          AppCubit.get(context).getFeedArticles();
           navigateToAndFinish(context, home);
         }
       },
