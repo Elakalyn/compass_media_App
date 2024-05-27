@@ -22,7 +22,17 @@ class GlobalCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        // navigateTo(context, const ArticleViewScreen());
+        var globalCardCategory =
+            cubit.categorizeArticle(cubit.globalCard!.title);
+        navigateTo(
+            context,
+            ArticleViewScreen(
+              category: globalCardCategory,
+              image: cubit.globalCard!.urlToImage,
+              name: cubit.globalCard!.title,
+              content: cubit.globalCard!.content,
+              source: cubit.globalCard!.source!.name,
+            ));
       },
       child: Container(
         width: 320.0,
@@ -48,7 +58,7 @@ class GlobalCard extends StatelessWidget {
                 width: 300,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(25),
-                  child: Image.network(cubit.globalCard.urlToImage,
+                  child: Image.network(cubit.globalCard!.urlToImage!,
                       fit: BoxFit.fill),
                 ),
               ),
@@ -66,18 +76,10 @@ class GlobalCard extends StatelessWidget {
                       child: Expanded(
                         child: Row(
                           children: [
-                            SizedBox(
-                              width: 25,
-                              height: 25,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(25),
-                                  child: Image.asset('assets/sources/BBC.png')),
-                            ),
-                            8.w,
                             Expanded(
                               child: Center(
                                 child: Text(
-                                  cubit.globalCard.source.name,
+                                  cubit.globalCard!.source!.name!,
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700,
@@ -140,7 +142,7 @@ class GlobalCard extends StatelessWidget {
                   Expanded(
                     child: Column(
                       children: [
-                        Text(cubit.globalCard.title,
+                        Text(cubit.globalCard!.title!,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(
@@ -148,7 +150,7 @@ class GlobalCard extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                             )),
                         8.h,
-                        Text(cubit.globalCard.content,
+                        Text(cubit.globalCard!.content!,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 3,
                             style: TextStyle(
@@ -169,143 +171,414 @@ class GlobalCard extends StatelessWidget {
 }
 
 Widget? NewsCard(Articles article, BuildContext context, var category) {
-  if (article.urlToImage != null)
-    return GestureDetector(
-      onTap: () {
-        navigateTo(
-            context,
-            ArticleViewScreen(
-              source: article.source!.name,
-              image: article.urlToImage,
-              name: article.title,
-              content: article.content,
-              category: category,
-            ));
-      },
-      child: Container(
-        width: 320.0,
-        height: 334.0,
-        decoration: BoxDecoration(
-          color: HexColor('0F1D37'),
-          borderRadius: BorderRadius.circular(25),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 50,
-              offset: const Offset(10, 10),
-              color: HexColor('06142E'),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 171,
-                width: 300,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
-                  child: Image.network(article.urlToImage!, fit: BoxFit.fill),
+  var categoryIcon;
+  if (AppCubit.get(context).selectedCategory != 's') {
+    if (category.toString().capitalize() ==
+        AppCubit.get(context).selectedCategory.capitalize()) {
+      print('selected category equals category');
+
+      if (article.urlToImage != null)
+        return GestureDetector(
+          onTap: () {
+            navigateTo(
+                context,
+                ArticleViewScreen(
+                  source: article.source!.name,
+                  image: article.urlToImage,
+                  name: article.title,
+                  content: article.content,
+                  category: category,
+                ));
+          },
+          child: Container(
+            width: 320.0,
+            height: 334.0,
+            decoration: BoxDecoration(
+              color: HexColor('0F1D37'),
+              borderRadius: BorderRadius.circular(25),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 50,
+                  offset: const Offset(10, 10),
+                  color: HexColor('06142E'),
                 ),
-              ),
-              12.h,
-              Row(
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 25,
-                              height: 25,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(25),
-                                  child: Image.asset('assets/sources/BBC.png')),
-                            ),
-                            8.w,
-                            Expanded(
-                              child: Center(
-                                child: Text(
-                                  article.source!.name!,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            8.w,
-                          ],
-                        ),
-                      ),
+                  SizedBox(
+                    height: 171,
+                    width: 300,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child:
+                          Image.network(article.urlToImage!, fit: BoxFit.fill),
                     ),
                   ),
-                  8.w,
-                  Expanded(
-                    child: Container(
-                      width: 110,
-                      decoration: BoxDecoration(
-                        color: HexColor('0040B8'),
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 25,
-                              height: 25,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(25),
-                                  child: Image.asset(
-                                      'assets/images/politicsIcon.png')),
-                            ),
-                            8.w,
-                            Expanded(
-                              child: Center(
-                                child: Text(
-                                  overflow: TextOverflow.ellipsis,
-                                  category.toString().toUpperCase(),
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
+                  12.h,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      article.source!.name!,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            )
-                          ],
+                                8.w,
+                              ],
+                            ),
+                          ),
                         ),
                       ),
+                      8.w,
+                      Expanded(
+                        child: Container(
+                          width: 110,
+                          decoration: BoxDecoration(
+                            color: HexColor('0040B8'),
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 25,
+                                  height: 25,
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(25),
+                                      child: Image.asset(
+                                          'assets/images/politicsIcon.png')),
+                                ),
+                                8.w,
+                                Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      overflow: TextOverflow.ellipsis,
+                                      category.toString().toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  8.h,
+                  Text(
+                    article.title!,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ],
               ),
-              8.h,
-              Text(
-                article.title!,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                ),
+            ),
+          ),
+        );
+
+      if (article.urlToImage == null) return 1.w;
+    } else {
+      return 1.w;
+    }
+  } else {
+    if (article.urlToImage != null)
+      return GestureDetector(
+        onTap: () {
+          navigateTo(
+              context,
+              ArticleViewScreen(
+                source: article.source!.name,
+                image: article.urlToImage,
+                name: article.title,
+                content: article.content,
+                category: category,
+              ));
+        },
+        child: Container(
+          width: 320.0,
+          height: 334.0,
+          decoration: BoxDecoration(
+            color: HexColor('0F1D37'),
+            borderRadius: BorderRadius.circular(25),
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 50,
+                offset: const Offset(10, 10),
+                color: HexColor('06142E'),
               ),
             ],
           ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 171,
+                  width: 300,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: Image.network(article.urlToImage!, fit: BoxFit.fill),
+                  ),
+                ),
+                12.h,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Center(
+                                  child: Text(
+                                    article.source!.name!,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              8.w,
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    8.w,
+                    Expanded(
+                      child: Container(
+                        width: 110,
+                        decoration: BoxDecoration(
+                          color: HexColor('0040B8'),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 25,
+                                height: 25,
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(25),
+                                    child: Image.asset(
+                                        'assets/images/politicsIcon.png')),
+                              ),
+                              8.w,
+                              Expanded(
+                                child: Center(
+                                  child: Text(
+                                    overflow: TextOverflow.ellipsis,
+                                    category.toString().toUpperCase(),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                8.h,
+                Text(
+                  article.title!,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
-    );
+      );
 
-  if (article.urlToImage == null) return 1.w;
+    if (article.urlToImage == null) return 1.w;
+  }
+}
+
+Widget? homeNewsCard(Articles article, BuildContext context, var category) {
+  if (UserProfileCubit.get(context)
+      .selectedTopics
+      .contains(category.toString().toLowerCase())) {
+    if (article.urlToImage != null)
+      return GestureDetector(
+        onTap: () {
+          navigateTo(
+              context,
+              ArticleViewScreen(
+                source: article.source!.name,
+                image: article.urlToImage,
+                name: article.title,
+                content: article.content,
+                category: category,
+              ));
+        },
+        child: Container(
+          width: 320.0,
+          height: 334.0,
+          decoration: BoxDecoration(
+            color: HexColor('0F1D37'),
+            borderRadius: BorderRadius.circular(25),
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 50,
+                offset: const Offset(10, 10),
+                color: HexColor('06142E'),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 171,
+                  width: 300,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: Image.network(article.urlToImage!, fit: BoxFit.fill),
+                  ),
+                ),
+                12.h,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Center(
+                                  child: Text(
+                                    article.source!.name!,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              8.w,
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    8.w,
+                    Expanded(
+                      child: Container(
+                        width: 110,
+                        decoration: BoxDecoration(
+                          color: HexColor('0040B8'),
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 25,
+                                height: 25,
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(25),
+                                    child: Image.asset(
+                                        'assets/images/politicsIcon.png')),
+                              ),
+                              8.w,
+                              Expanded(
+                                child: Center(
+                                  child: Text(
+                                    overflow: TextOverflow.ellipsis,
+                                    category.toString().toUpperCase(),
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                8.h,
+                Text(
+                  article.title!,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+
+    if (article.urlToImage == null) return 1.w;
+  } else {
+    return 1.w;
+  }
 }
 
 Future<void> navigateToAndFinish(context, widget) async =>
@@ -407,23 +680,28 @@ class elementCard extends StatelessWidget {
                     )
                   ],
                 ),
-                child: Column(
+                child: Stack(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: cubit.imageBuilder(name),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: cubit.topicImageBuilder(name),
+                        ),
+                        const Spacer(),
+                        Text(
+                          name.capitalize(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const Spacer(),
+                      ],
                     ),
-                    const Spacer(),
-                    Text(
-                      name.capitalize(),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const Spacer(),
-                  ],
+                 
+                    ],
                 )),
           );
         },
@@ -463,7 +741,7 @@ class elementCard extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: cubit.imageBuilder(name),
+                      child: cubit.sourceImageBuilder(name),
                     ),
                     const Spacer(),
                     Text(

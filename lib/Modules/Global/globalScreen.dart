@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:speed_up_flutter/speed_up_flutter.dart';
 import '../../Shared/Components/components.dart';
+import '../../Shared/cubit/user_profile_cubit.dart';
 
 class GlobalScreen extends StatelessWidget {
   const GlobalScreen({super.key});
@@ -104,7 +105,45 @@ class GlobalScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  40.h,
+                  16.h,
+                  SizedBox(
+                    height: 50,
+                    child: ListView.separated(
+                      itemCount: UserProfileCubit.get(context).topics.length,
+                      scrollDirection: Axis.horizontal,
+                      separatorBuilder: (BuildContext context, int index) {
+                        return 16.w;
+                      },
+                      itemBuilder: (BuildContext context, int index) {
+                        return Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              cubit.selectCategory(
+                                  UserProfileCubit.get(context).topics[index]);
+                            },
+                            child: Center(
+                              child: Text(
+                                UserProfileCubit.get(context)
+                                    .topics[index]
+                                    .capitalize(),
+                                style: TextStyle(
+                                  color: cubit.selectedCategory.capitalize() ==
+                                          UserProfileCubit.get(context)
+                                              .topics[index]
+                                              .capitalize()
+                                      ? Colors.white
+                                      : HexColor('#898989'),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  16.h,
                   if (cubit.globalArticles.isNotEmpty)
                     ListView.separated(
                       separatorBuilder: (context, index) => 20.h,
@@ -112,12 +151,11 @@ class GlobalScreen extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: cubit.globalArticles.length,
                       itemBuilder: (context, index) {
+                        var category = cubit.categorizeArticle(
+                            cubit.globalArticles[index].title!.toLowerCase());
+
                         return NewsCard(
-                            cubit.globalArticles[index],
-                            context,
-                            cubit.categorizeArticle(cubit
-                                .feedArticles[index].title!
-                                .toLowerCase()));
+                            cubit.feedArticles[index], context, category);
                       },
                     ),
                   if (state is LoadingGetArticlesState)

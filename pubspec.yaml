@@ -75,20 +75,14 @@ flutter:
     - assets/images/sports.png
     - assets/images/politics.png
     - assets/images/space.png
+    - assets/images/health.png
+    - assets/images/entertainment.png
     - assets/images/technology.png
     - assets/images/business.png
     - assets/images/economy.png
     - assets/images/CTA_Button.png
     - assets/images/profile.png
     - assets/images/politicsIcon.png
-    - assets/images/vignette.png
-    # Source Images
-    - assets/sources/BBC.png
-    - assets/sources/CNN.png
-    - assets/sources/Reuters.png
-    - assets/sources/foxNews.png
-    - assets/sources/GoogleNews.png
-    - assets/sources/NYTimes.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

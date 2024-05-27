@@ -7,6 +7,7 @@ import 'package:speed_up_flutter/speed_up_flutter.dart';
 import '../../Shared/Components/components.dart';
 import '../../Shared/cubit/app_cubit.dart';
 import '../Layout/layout.dart';
+import '../User Setup/user_setup.dart';
 
 var emailController = TextEditingController();
 var passwordController = TextEditingController();
@@ -25,9 +26,7 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppState>(
-      listener: (context, state) {
-
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
           body: Form(
@@ -146,7 +145,7 @@ class RegisterScreen extends StatelessWidget {
                                   }
                                   if (value.toString() !=
                                       passwordController.text) {
-                                    return 'Please recheck your password before proceeding.';
+                                    return 'Please recheck your password.';
                                   }
                                   return null;
                                 },
@@ -188,15 +187,16 @@ class RegisterScreen extends StatelessWidget {
                                         name: usernameController.text);
                                   }
                                 },
+                                onLongPress: () {
+                                  navigateToAndFinish(
+                                      context, TopicSelection());
+                                },
                                 style: ButtonStyle(
                                   backgroundColor:
                                       MaterialStateProperty.all(Colors.white),
                                 ),
-                                child: Text(
-                                  'Sign Up',
-                                  style: TextStyle(
-                                    color: HexColor('#0F1D37'),
-                                  ),
+                                child: signUpButton(
+                                  state: state,
                                 ),
                               ),
                               24.h,
@@ -234,6 +234,26 @@ class RegisterScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class signUpButton extends StatelessWidget {
+  const signUpButton({
+    super.key,
+    required this.state,
+  });
+  final state;
+  @override
+  Widget build(BuildContext context) {
+    if (state is LoadingRegisterState) {
+      return CircularProgressIndicator();
+    }
+    return Text(
+      'Sign Up',
+      style: TextStyle(
+        color: HexColor('#0F1D37'),
+      ),
     );
   }
 }

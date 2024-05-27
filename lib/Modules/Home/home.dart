@@ -77,7 +77,7 @@ class HomeScreen extends StatelessWidget {
                           var category = cubit.categorizeArticle(
                               cubit.feedArticles[index].title!.toLowerCase());
 
-                          return NewsCard(
+                          return homeNewsCard(
                               cubit.feedArticles[index], context, category);
                         },
                       ),

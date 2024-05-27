@@ -11,6 +11,8 @@ class SuffixChangeState extends AppState {}
 
 final class BNBChangeState extends AppState {}
 
+final class CategorySelectionState extends AppState {}
+
 // LOGIN STATES
 class LoadingLoginState extends AppState {}
 

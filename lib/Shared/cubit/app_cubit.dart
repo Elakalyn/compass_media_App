@@ -50,6 +50,21 @@ class AppCubit extends Cubit<AppState> {
     emit(BNBChangeState());
   }
 
+  var selectedCategory = 'Politics';
+  Future<void> selectCategory(category) async {
+    if (category != selectedCategory) {
+      selectedCategory = category;
+      globalArticles.clear();
+      await getGlobalArticles();
+      emit(CategorySelectionState());
+    } else {
+      selectedCategory = 's';
+      globalArticles.clear();
+      await getGlobalArticles();
+      emit(CategorySelectionState());
+    }
+  }
+
   Future<Object?> register(
       {required String email,
       required String password,
@@ -107,6 +122,14 @@ class AppCubit extends Cubit<AppState> {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           backgroundColor: Colors.red,
           content: Text("The account already exists for that email.",
+              style: TextStyle(color: Colors.white)),
+          duration: Duration(seconds: 3),
+        ));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(
+              "Account creation failed. Please check your internet connection.",
               style: TextStyle(color: Colors.white)),
           duration: Duration(seconds: 3),
         ));
@@ -270,7 +293,7 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
-  var globalCard;
+  Articles? globalCard;
   var worldFocus = 'Israel';
   Future<void> getGlobalCardArticle() async {
     emit(LoadingGetArticlesState());
@@ -292,21 +315,40 @@ class AppCubit extends Cubit<AppState> {
     });
   }
 
-  String categorizeArticle(String title) {
-    for (String keyword in technologyKeywords) {
-      if (title.contains(keyword)) {
-        return 'technology'.toUpperCase();
-      }
-    }
+  String categorizeArticle(title) {
     for (String keyword in politicalKeywords) {
-      if (title.contains(keyword)) {
+      if (title.contains(keyword.toLowerCase())) {
         return 'politics'.toUpperCase();
       }
     }
-
     for (String keyword in businessKeywords) {
-      if (title.contains(keyword)) {
+      if (title.contains(keyword.toLowerCase())) {
         return 'business'.toUpperCase();
+      }
+    }
+    for (String keyword in entertainmentKeywords) {
+      if (title.contains(keyword.toLowerCase())) {
+        return 'entertainment'.toUpperCase();
+      }
+    }
+    for (String keyword in sportsKeywords) {
+      if (title.contains(keyword.toLowerCase())) {
+        return 'sports'.toUpperCase();
+      }
+    }
+    for (String keyword in spaceKeywords) {
+      if (title.contains(keyword.toLowerCase())) {
+        return 'space'.toUpperCase();
+      }
+    }
+    for (String keyword in healthKeywords) {
+      if (title.contains(keyword.toLowerCase())) {
+        return 'health'.toUpperCase();
+      }
+    }
+    for (String keyword in technologyKeywords) {
+      if (title.contains(keyword.toLowerCase())) {
+        return 'technology'.toUpperCase();
       }
     }
     return 'uncategorized'.toUpperCase();
@@ -315,7 +357,7 @@ class AppCubit extends Cubit<AppState> {
   Future<void> refresh() async {
     globalArticles.clear();
     feedArticles.clear();
-    globalCard = null;
+
     getFeedArticles();
     getGlobalArticles();
     getGlobalCardArticle();

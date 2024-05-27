@@ -23,23 +23,6 @@ class ProfileScreen extends StatelessWidget {
                 icon: Icon(Icons.arrow_back),
                 onPressed: () {
                   navigateToAndFinish(context, Layout());
-
-                  cubit.topics = [
-                    'politics',
-                    'sports',
-                    'space',
-                    'technology',
-                    'economy',
-                    'business',
-                  ];
-                  cubit.sources = [
-                    'BBC',
-                    'CNN',
-                    'reuters',
-                    'google News',
-                    'fox News',
-                    'NY Times',
-                  ];
                 },
               ),
               centerTitle: true,
@@ -94,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold,
                                     )),
-                                Text('Created: 9/10/23',
+                                Text(interuser?.get('email'),
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w400,
@@ -182,13 +165,32 @@ class ProfileScreen extends StatelessWidget {
                           crossAxisSpacing: 10.0,
                         ),
                         itemBuilder: (BuildContext context, int index) {
-                          return elementCard(
-                            edit_mode: false,
-
-                            type: cubit.displayTopics ? 'topics' : 'sources',
-                            name: cubit.displayTopics
-                                ? cubit.selectedTopics[index]
-                                : cubit.selectedSources[index],
+                          return Stack(
+                            children: [
+                              elementCard(
+                                edit_mode: false,
+                                type: cubit.displayTopics ? 'topics' : 'sources',
+                                name: cubit.displayTopics
+                                    ? cubit.selectedTopics[index]
+                                    : cubit.selectedSources[index],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(13.0),
+                                child: CircleAvatar(
+                                  maxRadius: 10,
+                                  backgroundColor: Colors.white,
+                                ),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.remove,
+                                  color: Colors.blue,
+                                ),
+                                onPressed: () {
+                                  cubit.removeTopicOrSource(index);
+                                },
+                              )
+                            ],
                           );
                         },
                       ),
@@ -211,9 +213,8 @@ class ProfileScreen extends StatelessWidget {
                       GridView.builder(
                         shrinkWrap: true,
                         itemCount: cubit.displayTopics
-                            ? cubit.topics.length - cubit.selectedTopics.length
-                            : cubit.sources.length -
-                                cubit.selectedSources.length,
+                            ? cubit.unSelectedTopics.length
+                            : cubit.unSelectedSources.length,
                         physics: NeverScrollableScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           childAspectRatio: .7,
@@ -222,17 +223,33 @@ class ProfileScreen extends StatelessWidget {
                           crossAxisSpacing: 10.0,
                         ),
                         itemBuilder: (BuildContext context, int index) {
-                          cubit.topics.removeWhere((element) =>
-                              cubit.selectedTopics.contains(element));
-                          cubit.sources.removeWhere((element) =>
-                              cubit.selectedSources.contains(element));
-                      
-                          return elementCard(
-                            edit_mode: false,
-                            type: cubit.displayTopics ? 'topics' : 'sources',
-                            name: cubit.displayTopics
-                                ? cubit.topics[index]
-                                : cubit.sources[index],
+                          return Stack(
+                            children: [
+                              elementCard(
+                                edit_mode: false,
+                                type:
+                                    cubit.displayTopics ? 'topics' : 'sources',
+                                name: cubit.displayTopics
+                                    ? cubit.unSelectedTopics[index]
+                                    : cubit.unSelectedSources[index],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(13.0),
+                                child: CircleAvatar(
+                                  maxRadius: 10,
+                                  backgroundColor: Colors.white,
+                                ),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.add,
+                                  color: Colors.blue,
+                                ),
+                                onPressed: () {
+                                  cubit.addTopicOrSource(index);
+                                },
+                              )
+                            ],
                           );
                         },
                       ),

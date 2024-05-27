@@ -92,7 +92,74 @@ class ArticleViewScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            20.h,
+                            16.h,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 130,
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Expanded(
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Center(
+                                              child: Text(
+                                                source,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w700,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                8.w,
+                                Container(
+                                  width: 110,
+                                  decoration: BoxDecoration(
+                                    color: HexColor('0040B8'),
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 25,
+                                          height: 25,
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              child: Image.asset(
+                                                  'assets/images/politicsIcon.png')),
+                                        ),
+                                        8.w,
+                                         Text(
+                                          category,
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            32.h,
                             Container(
                               width: 320.0,
                               height: 190,
@@ -100,43 +167,10 @@ class ArticleViewScreen extends StatelessWidget {
                                 color: HexColor('000F2B'),
                                 borderRadius: BorderRadius.circular(35.0),
                               ),
-                              child: Stack(children: [
-                                ClipRRect(
-                                    borderRadius: BorderRadius.circular(25),
-                                    child:
-                                        Image.network(image, fit: BoxFit.fill)),
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      children: [
-                                        CircleAvatar(
-                                            maxRadius: 15,
-                                            backgroundColor:
-                                                HexColor('#0F1D37'),
-                                            child: Image.asset(
-                                                'assets/images/politics.png')),
-                                        10.h,
-                                        const CircleAvatar(
-                                            maxRadius: 15,
-                                            backgroundImage: AssetImage(
-                                              'assets/sources/BBC.png',
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ]),
-                            ),
-                            20.h,
-                            Container(
-                              width: 320.0,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: HexColor('000F2B'),
-                                borderRadius: BorderRadius.circular(35.0),
-                              ),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(25),
+                                  child:
+                                      Image.network(image, fit: BoxFit.fill)),
                             ),
                             40.h,
                             Headline(content: content),

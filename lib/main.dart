@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           create: (context) => UserProfileCubit()..getProfile(),
         ),
         BlocProvider(
-          create: (context) => AppCubit(),
+          create: (context) => AppCubit()..getFeedArticles()..getGlobalArticles()..getGlobalCardArticle(),
         ),
       ],
       child: BlocConsumer<AppCubit, AppState>(
