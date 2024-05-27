@@ -154,7 +154,7 @@ class GlobalScreen extends StatelessWidget {
                         var category = cubit.categorizeArticle(
                             cubit.globalArticles[index].title!.toLowerCase());
 
-                        return NewsCard(
+                        return globalNewsCard(
                             cubit.feedArticles[index], context, category);
                       },
                     ),

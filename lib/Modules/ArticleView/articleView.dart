@@ -127,7 +127,7 @@ class ArticleViewScreen extends StatelessWidget {
                                 ),
                                 8.w,
                                 Container(
-                                  width: 110,
+                                  width: 155,
                                   decoration: BoxDecoration(
                                     color: HexColor('0040B8'),
                                     borderRadius: BorderRadius.circular(25),
@@ -146,11 +146,16 @@ class ArticleViewScreen extends StatelessWidget {
                                                   'assets/images/politicsIcon.png')),
                                         ),
                                         8.w,
-                                         Text(
-                                          category,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w700,
+                                        Expanded(
+                                          child: Center(
+                                            child: Text(
+                                              overflow: TextOverflow.ellipsis,
+                                              category.toString().toUpperCase(),
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
                                           ),
                                         )
                                       ],
