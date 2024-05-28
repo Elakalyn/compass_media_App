@@ -3,7 +3,7 @@
 
 <p align="center">
   <a href="https://github.com/Elakalyn/compass_media_App">
-    <img src="https://media.discordapp.net/attachments/1162868754762448966/1162869211987710072/a7d5e0a5-b5fa-4d3b-a1bf-57a43e94669f-removebg-preview.png?ex=653d8159&is=652b0c59&hm=f79eef126bd9a8f5be6fcf003441e7b1a1652364baec4fe6eac9ee98ccfbb209&=&width=427&height=427" alt="Logo">
+    <img src="https://github.com/Elakalyn/compass_media_App/assets/115952480/30617715-7cae-48af-9084-af074fb0d0eb" alt="Logo" width="400" height="400">
   </a>
 
   <h1 align="center">Compass Media - News Aggregating App</h1>
@@ -17,7 +17,10 @@
 
 ## 📱 Screenshots (Android):
 
-WIP
+<img src="https://github.com/Elakalyn/compass_media_App/assets/115952480/e97a4d8f-ede3-45a1-81fd-1faa00a78b16" width="192" height="432">
+<img src="https://github.com/Elakalyn/compass_media_App/assets/115952480/0e44fd2f-72d4-49cf-9abb-d193b2e7e421" width="192" height="432">
+<img src="https://github.com/Elakalyn/compass_media_App/assets/115952480/a9b20d86-6610-458d-8689-5b0d26a4c707" width="192" height="432">
+<img src="https://github.com/Elakalyn/compass_media_App/assets/115952480/781aea8e-8611-4f51-8877-14deb07a733a" width="192" height="432">
 
 # Community
 
